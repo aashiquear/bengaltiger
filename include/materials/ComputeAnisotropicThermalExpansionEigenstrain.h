@@ -26,7 +26,7 @@ InputParameters validParams<ComputeAnisotropicThermalExpansionEigenstrain>();
  * compute eigenstrains due to thermal expansion of an anisotropic material.
  */
 class ComputeAnisotropicThermalExpansionEigenstrain
-    : public DerivativeMaterialInterface<ComputeEigenstrainBase>
+  : public DerivativeMaterialInterface<ComputeEigenstrainBase>
 {
 public:
   ComputeAnisotropicThermalExpansionEigenstrain(const InputParameters & parameters);
@@ -43,7 +43,7 @@ protected:
    *                         expansion (derivative of thermal_strain wrt
    *                         temperature
    */
-  //virtual void computeThermalStrain(Real & thermal_strain, Real & instantaneous_cte) = 0;
+  // virtual void computeThermalStrain(Real & thermal_strain, Real & instantaneous_cte) = 0;
 
   const VariableValue & _temperature;
   MaterialProperty<RankTwoTensor> & _deigenstrain_dT;

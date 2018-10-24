@@ -13,7 +13,7 @@
 #include "RotationTensor.h"
 
 registerMooseObject("bengaltigerApp", ComputeAnisotropicThermalExpansionEigenstrain);
-//registerMaterials(ComputeAnisotropicThermalExpansionEigenstrain);
+// registerMaterials(ComputeAnisotropicThermalExpansionEigenstrain);
 
 template <>
 InputParameters
@@ -51,21 +51,22 @@ ComputeAnisotropicThermalExpansionEigenstrain::ComputeAnisotropicThermalExpansio
 void
 ComputeAnisotropicThermalExpansionEigenstrain::computeQpEigenstrain()
 {
-  //Real thermal_strain = 0.0;
-  //Real instantaneous_cte = 0.0;
+  // Real thermal_strain = 0.0;
+  // Real instantaneous_cte = 0.0;
 
-  //computeThermalStrain(thermal_strain, instantaneous_cte);
+  // computeThermalStrain(thermal_strain, instantaneous_cte);
 
   Real theta1 = _thermal_expansion_coeff1 * (_temperature[_qp] - _stress_free_temperature[_qp]);
   Real theta2 = _thermal_expansion_coeff2 * (_temperature[_qp] - _stress_free_temperature[_qp]);
   Real theta3 = _thermal_expansion_coeff3 * (_temperature[_qp] - _stress_free_temperature[_qp]);
 
-  RankTwoTensor I1(1,0,0, 0,0,0);
-  RankTwoTensor I2(0,1,0, 0,0,0);
-  RankTwoTensor I3(0,0,1, 0,0,0);
+  RankTwoTensor I1(1, 0, 0, 0, 0, 0);
+  RankTwoTensor I2(0, 1, 0, 0, 0, 0);
+  RankTwoTensor I3(0, 0, 1, 0, 0, 0);
 
   RankTwoTensor theta = theta1 * I1 + theta2 * I2 + theta3 * I3;
-  Real instantaneous_cte = (_thermal_expansion_coeff1 + _thermal_expansion_coeff2 + _thermal_expansion_coeff3) * (1 / 3);
+  Real instantaneous_cte =
+      (_thermal_expansion_coeff1 + _thermal_expansion_coeff2 + _thermal_expansion_coeff3) * (1 / 3);
 
   EulerAngles angles;
 
