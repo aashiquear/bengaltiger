@@ -69,7 +69,7 @@
   #   family= LAGRANGE
   # [../]
   [./temp]
-    initial_condition = 298
+    initial_condition = 273
   [../]
 []
 
@@ -145,11 +145,11 @@
   # [../]
   [./temp_func]
     type = ParsedFunction
-    value = '300+1e6*t'
+    value = '300+1e7*t'
   [../]
   [./temp_func_top]
     type = ParsedFunction
-    value = '400+1e6*t'
+    value = '400+1e7*t'
   [../]
 []
 
@@ -206,7 +206,7 @@
     thermal_expansion_coeff1 = 3.33e-5 #unit: K^-1 at 298K reference: 2016 Ren Thermodynamic Properties of aU
     thermal_expansion_coeff2 = 1.11e-5
     thermal_expansion_coeff3 = 2.22e-5
-    stress_free_temperature = 298 #unit: K
+    stress_free_temperature = 273 #unit: K
     eigenstrain_name = thermal_strain
     euler_angle_provider = euler_angle_file
     # base_name = uncracked
@@ -896,14 +896,14 @@
   nl_max_its = 14
   l_max_its = 40
   l_tol = 1e-4
-  nl_rel_tol = 1e-8
-  nl_abs_tol = 1e-9
+  nl_rel_tol = 1e-5
+  nl_abs_tol = 1e-6
   [./TimeStepper]
     type = ConstantDT
     dt = 1e-6
   [../]
 
-  num_steps = 100
+  num_steps = 10
 []
 
 [Outputs]
