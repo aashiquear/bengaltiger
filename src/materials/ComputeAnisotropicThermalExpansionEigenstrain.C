@@ -45,7 +45,7 @@ ComputeAnisotropicThermalExpansionEigenstrain::ComputeAnisotropicThermalExpansio
     _thermal_expansion_coeff2(getParam<Real>("thermal_expansion_coeff2")),
     _thermal_expansion_coeff3(getParam<Real>("thermal_expansion_coeff3")),
     _euler(getUserObject<EulerAngleProvider>("euler_angle_provider"))
-{
+{ // initilize Euler angle here
 }
 
 void
