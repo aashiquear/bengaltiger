@@ -19,8 +19,8 @@
   op_num = 12
   var_name_base = gr
   displacements = 'disp_x disp_y'
-  # euler_angle_provider = 'euler_angle_file'
-  # grain_tracker = 'grain_tracker'
+  euler_angle_provider = 'euler_angle_file'
+  grain_tracker = 'grain_tracker'
 []
 
 [UserObjects]
@@ -55,7 +55,11 @@
     fill_method = symmetric9
 
     # C_ijkl = 1111 1122 1133 2222 2233 3333 2323 1313 1212
-    C_ijkl = '2.148e-1 1.986e-1 2.671e-1 1.244e-1 0.734e-1 0.743e-1 0.465e-1 0.218e-1 1.076e-1' # temperature: 298K Reference: 1966 Fisher aUranium Mechanical Properties
+    # C_ijkl = '2.148e-1 1.986e-1 2.671e-1 1.244e-1 0.734e-1 0.743e-1 0.465e-1 0.218e-1 1.076e-1'
+          # temperature: 298K Reference: 1966 Fisher aUranium Mechanical Properties
+
+    # C_ijkl = '1.984e-1 5.37e-2 2.82e-2 1.76e-1 9.87e-2 2.249e-1 9.58e-2 4.26e-2 5.46e-2'  # temperature: 673K
+    C_ijkl = '2.139e-1 0.476e-1 0.222e-1 1.961e-1 1.070e-1 2.633e-1 1.210e-1 0.695e-1 0.718e-1' # temperature: 348K Reference: 1966 Fisher aUranium Mechanical Properties
 
     euler_angle_provider = euler_angle_file
   [../]
@@ -145,11 +149,11 @@
   # [../]
   [./temp_func]
     type = ParsedFunction
-    value = '300+1e7*t'
+    value = '325+1e6*t'
   [../]
   [./temp_func_top]
     type = ParsedFunction
-    value = '400+1e7*t'
+    value = '373+1e6*t'
   [../]
 []
 
@@ -203,12 +207,13 @@
     type = ComputeAnisotropicThermalExpansionEigenstrain
     temperature = temp
     # thermal_expansion_coeff = 3.66e-5 #unit: K^-1 at 600K
-    thermal_expansion_coeff1 = 3.33e-5 #unit: K^-1 at 298K reference: 2016 Ren Thermodynamic Properties of aU
-    thermal_expansion_coeff2 = 1.11e-5
-    thermal_expansion_coeff3 = 2.22e-5
+    thermal_expansion_coeff1 = 20.3e-6 #unit: K^-1 at 75C reference 1956 Bridge X-Ray diffraction
+    thermal_expansion_coeff2 = -1.4e-6
+    thermal_expansion_coeff3 = 22.2e-6
     stress_free_temperature = 273 #unit: K
     eigenstrain_name = thermal_strain
     euler_angle_provider = euler_angle_file
+    grain_tracker = grain_tracker
     # base_name = uncracked
   [../]
   [./heat]
@@ -756,13 +761,13 @@
   [./pin_disp_x]
     type = DirichletBC
     variable = disp_x
-    boundary = 'left'
+    boundary = 'left bottom'
     value = 0.0
   [../]
   [./pin_disp_y]
     type = DirichletBC
     variable = disp_y
-    boundary = 'bottom'
+    boundary = 'left bottom'
     value = 0.0
   [../]
   # [disp_top]
@@ -783,18 +788,24 @@
     function = 'temp_func'
     boundary = 'right'
   [../]
-  [./temp_bottom]
-    type = DirichletBC
-    variable = temp
-    value = 273
-    boundary = 'bottom'
-  [../]
-  [./temp_top]
-    type = FunctionDirichletBC
-    variable = temp
-    function = 'temp_func_top'
-    boundary = 'top'
-  [../]
+  # [./temp_bottom]
+  #   type = DirichletBC
+  #   variable = temp
+  #   value = 273
+  #   boundary = 'bottom'
+  # [../]
+  # [./temp_top]
+  #   type = DirichletBC
+  #   variable = temp
+  #   value = 273
+  #   boundary = 'top'
+  # [../]
+  # [./temp_top]
+  #   type = FunctionDirichletBC
+  #   variable = temp
+  #   function = 'temp_func_top'
+  #   boundary = 'top'
+  # [../]
 # [./pin_disp_zl
 #   type = DirichletBC
 #   variable = disp_z
@@ -893,7 +904,7 @@
   # petsc_options_iname = '-pc_type -sub_pc_type -pc_factor_mat_solving_package -pc_asm_overlap'
   # petsc_options_value = 'asm      lu           superlu_dist                  1'
 
-  nl_max_its = 14
+  nl_max_its = 15
   l_max_its = 40
   l_tol = 1e-4
   nl_rel_tol = 1e-5
@@ -903,7 +914,7 @@
     dt = 1e-6
   [../]
 
-  num_steps = 10
+  num_steps = 100
 []
 
 [Outputs]
