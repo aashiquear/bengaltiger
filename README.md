@@ -2,7 +2,7 @@ bengaltiger
 =====
 
 ![Imaage of Icon]
-(https://github.com/aashiquear/bengaltiger/blob/master/images/icon.jpg)
+(https://github.com/aashiquear/bengaltiger/images/icon.jpg)
 
 "Fork bengaltiger" to create a new MOOSE-based application.
 
