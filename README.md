@@ -1,6 +1,4 @@
 bengaltiger
 =====
 
-"Fork bengaltiger" to create a new MOOSE-based application.
-
-For more information see: [http://mooseframework.org/create-an-app/](http://mooseframework.org/create-an-app/)
+![Image of Bengal Tiger](https://raw.githubusercontent.com/aashiquear/bengaltiger/master/images/icon.png)
