@@ -43,7 +43,7 @@
     fill_method = symmetric9
 
     # C_ijkl = 1111 1122 1133 2222 2233 3333 2323 1313 1212   Reference: 1966 Fisher aUranium Mechanical Properties
-    # C_ijkl = '2.148e-1 1.986e-1 2.671e-1 1.244e-1 0.734e-1 0.743e-1 0.465e-1 0.218e-1 1.076e-1' # temperature: 298K
+    # C_ijkl = '2.148e-1 0.465e-1 0.218e-1 1.986e-1 1.076e-1 2.671e-1 1.244e-1 0.734e-1 0.743e-1' # temperature: 298K
     # C_ijkl = '1.984e-1 5.37e-2 2.82e-2 1.76e-1 9.87e-2 2.249e-1 9.58e-2 4.26e-2 5.46e-2'  # temperature: 673K
     C_ijkl = '2.139e-1 0.476e-1 0.222e-1 1.961e-1 1.070e-1 2.633e-1 1.210e-1 0.695e-1 0.718e-1' # temperature: 348K Reference: 1966 Fisher aUranium Mechanical Properties
 

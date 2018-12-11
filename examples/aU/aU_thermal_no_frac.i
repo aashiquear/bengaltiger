@@ -55,7 +55,7 @@
     fill_method = symmetric9
 
     # C_ijkl = 1111 1122 1133 2222 2233 3333 2323 1313 1212
-    # C_ijkl = '2.148e-1 1.986e-1 2.671e-1 1.244e-1 0.734e-1 0.743e-1 0.465e-1 0.218e-1 1.076e-1'
+    # C_ijkl = '2.148e-1 0.465e-1 0.218e-1 1.986e-1 1.076e-1 2.671e-1 1.244e-1 0.734e-1 0.743e-1'
           # temperature: 298K Reference: 1966 Fisher aUranium Mechanical Properties
 
     # C_ijkl = '1.984e-1 5.37e-2 2.82e-2 1.76e-1 9.87e-2 2.249e-1 9.58e-2 4.26e-2 5.46e-2'  # temperature: 673K
@@ -179,7 +179,7 @@
   #   # 1 N / micron^2 = 1e6 MPa = 1e3 GPa
   #   # C_ijkl = 1111 1122 1133 2222 2233 3333 2323 1313 1212
   #   # C_ijkl = '1.984e-1 5.37e-2 2.82e-2 1.76e-1 9.87e-2 2.249e-1 9.58e-2 4.26e-2 5.46e-2'  # temperature: 673K
-  #   C_ijkl = '2.148e-1 1.986e-1 2.671e-1 1.244e-1 0.734e-1 0.743e-1 0.465e-1 0.218e-1 1.076e-1' # temperature: 298K Reference: 1966 Fisher aUranium Mechanical Properties
+  #   C_ijkl = '2.148e-1 0.465e-1 0.218e-1 1.986e-1 1.076e-1 2.671e-1 1.244e-1 0.734e-1 0.743e-1' # temperature: 298K Reference: 1966 Fisher aUranium Mechanical Properties
   #   # base_name = uncracked
   #   # euler_angle_provider = euler_angle_file
   # [../]
