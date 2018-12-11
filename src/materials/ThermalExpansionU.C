@@ -13,7 +13,6 @@
 #include "RotationTensor.h"
 
 registerMooseObject("bengaltigerApp", ThermalExpansionU);
-// registerMaterials(ThermalExpansionU);
 
 template <>
 InputParameters
@@ -27,9 +26,6 @@ validParams<ThermalExpansionU>()
                                "Reference temperature at which there is no "
                                "thermal expansion for thermal eigenstrain "
                                "calculation");
-  // params.addRequiredParam<Real>("thermal_expansion_coeff1", "Thermal expansion coefficient 1");
-  // params.addRequiredParam<Real>("thermal_expansion_coeff2", "Thermal expansion coefficient 2");
-  // params.addRequiredParam<Real>("thermal_expansion_coeff3", "Thermal expansion coefficient 3");
   params.addRequiredCoupledVarWithAutoBuild(
       "v", "var_name_base", "op_num", "Array of coupled variables");
   params.addRequiredParam<UserObjectName>("euler_angle_provider",
@@ -46,9 +42,6 @@ ThermalExpansionU::ThermalExpansionU(const InputParameters & parameters)
     _deigenstrain_dT(declarePropertyDerivative<RankTwoTensor>(_eigenstrain_name,
                                                               getVar("temperature", 0)->name())),
     _stress_free_temperature(coupledValue("stress_free_temperature")),
-    // _thermal_expansion_coeff1(getParam<Real>("thermal_expansion_coeff1")),
-    // _thermal_expansion_coeff2(getParam<Real>("thermal_expansion_coeff2")),
-    // _thermal_expansion_coeff3(getParam<Real>("thermal_expansion_coeff3")),
     _op_num(coupledComponents("v")),
     _vals(_op_num),
     _euler(getUserObject<EulerAngleProvider>("euler_angle_provider")),
@@ -65,6 +58,9 @@ ThermalExpansionU::ThermalExpansionU(const InputParameters & parameters)
 void
 ThermalExpansionU::computeQpEigenstrain()
 {
+  // Lloyd, L. T., & Barrett, C. S. (1966). Thermal expansion of alpha Uranium. Journal of Nuclear
+  // Materials, 18, 55-59.
+
   Real cte1 = 24.22e-6 - 9.83e-9 * _temperature[_qp] +
               46.02e-12 * (_temperature[_qp]) * (_temperature[_qp]);
   Real cte2 =
