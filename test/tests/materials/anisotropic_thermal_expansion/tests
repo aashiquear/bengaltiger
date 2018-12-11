@@ -1,7 +1,7 @@
 [Tests]
   [./test]
     type = 'Exodiff'
-    input = 'cte_U.i'
-    exodiff = 'cte_U_out.e'
+    input = 'cte.i'
+    exodiff = 'cte_out.e'
   [../]
 []
