@@ -116,7 +116,6 @@
         add_variables = true
         strain = SMALL
         #NB: it's eigenstrain_names, PLURAL!!!!
-        # eigenstrain_names = growth_strain
         eigenstrain_names = thermal_strain
         generate_output = 'stress_xx stress_yy stress_xy
                            vonmises_stress hydrostatic_stress' #strain_xx strain_yy strain_xy

@@ -1,0 +1,7 @@
+[Tests]
+  [./test]
+    type = 'Exodiff'
+    input = 'cte_U.i'
+    exodiff = 'cte_U_out.e'
+  [../]
+[]
