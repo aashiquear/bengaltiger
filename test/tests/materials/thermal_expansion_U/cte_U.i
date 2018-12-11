@@ -807,74 +807,74 @@
 []
 
 [Postprocessors]
-  [./DOFs]
-    type = NumDOFs
-    execute_on = 'initial timestep_end'
-    system = NL
-  [../]
-  [./elastic_energy]
-    type = ElementIntegralVariablePostprocessor
-    variable = elastic_energy
-  [../]
-  [./av_elastic_energy]
-    type = ElementAverageValue
-    variable = elastic_energy
-  [../]
-  [./physical]
-    type = MemoryUsage
-    mem_type = physical_memory
-    # value_type = total
-    # by default MemoryUsage reports the peak value for the current timestep
-    # out of all samples that have been taken (at linear and nonlinear iterations)
-    execute_on = 'INITIAL TIMESTEP_END NONLINEAR LINEAR'
-  [../]
-  [./virtual]
-    type = MemoryUsage
-    mem_type = virtual_memory
-    # value_type = total
-    execute_on = 'INITIAL TIMESTEP_END'
-  [../]
-  [./page_faults]
-    type = MemoryUsage
-    mem_type = page_faults
-    # value_type = total
-    execute_on = 'INITIAL TIMESTEP_END'
-  [../]
-  [./stress_xx]
-    type = ElementAverageValue
-    variable = stress_xx
-  [../]
-  [./strain_xx]
-    type = ElementAverageValue
-    variable = strain_xx
-  [../]
-  [./av_von_misses]
-    type = ElementAverageValue
-    variable = vonmises_stress
-  [../]
-  [./disp_y_top]
-    type = SideAverageValue
-    variable = disp_y
-    boundary = top
-  [../]
-  [./av_stress_yy]
-    type = SideAverageValue
-    variable = stress_yy
-    boundary = top
-  [../]
-  [./av_strain_yy]
-    type = SideAverageValue
-    variable = strain_yy
-    boundary = top
-  [../]
-  [./stress_yy]
-    type = ElementAverageValue
-    variable = stress_yy
-  [../]
-  [./strain_yy]
-    type = ElementAverageValue
-    variable = strain_yy
-  [../]
+  # [./DOFs]
+  #   type = NumDOFs
+  #   execute_on = 'initial timestep_end'
+  #   system = NL
+  # [../]
+  # [./elastic_energy]
+  #   type = ElementIntegralVariablePostprocessor
+  #   variable = elastic_energy
+  # [../]
+  # [./av_elastic_energy]
+  #   type = ElementAverageValue
+  #   variable = elastic_energy
+  # [../]
+  # [./physical]
+  #   type = MemoryUsage
+  #   mem_type = physical_memory
+  #   # value_type = total
+  #   # by default MemoryUsage reports the peak value for the current timestep
+  #   # out of all samples that have been taken (at linear and nonlinear iterations)
+  #   execute_on = 'INITIAL TIMESTEP_END NONLINEAR LINEAR'
+  # [../]
+  # [./virtual]
+  #   type = MemoryUsage
+  #   mem_type = virtual_memory
+  #   # value_type = total
+  #   execute_on = 'INITIAL TIMESTEP_END'
+  # [../]
+  # [./page_faults]
+  #   type = MemoryUsage
+  #   mem_type = page_faults
+  #   # value_type = total
+  #   execute_on = 'INITIAL TIMESTEP_END'
+  # [../]
+  # [./stress_xx]
+  #   type = ElementAverageValue
+  #   variable = stress_xx
+  # [../]
+  # [./strain_xx]
+  #   type = ElementAverageValue
+  #   variable = strain_xx
+  # [../]
+  # [./av_von_misses]
+  #   type = ElementAverageValue
+  #   variable = vonmises_stress
+  # [../]
+  # [./disp_y_top]
+  #   type = SideAverageValue
+  #   variable = disp_y
+  #   boundary = top
+  # [../]
+  # [./av_stress_yy]
+  #   type = SideAverageValue
+  #   variable = stress_yy
+  #   boundary = top
+  # [../]
+  # [./av_strain_yy]
+  #   type = SideAverageValue
+  #   variable = strain_yy
+  #   boundary = top
+  # [../]
+  # [./stress_yy]
+  #   type = ElementAverageValue
+  #   variable = stress_yy
+  # [../]
+  # [./strain_yy]
+  #   type = ElementAverageValue
+  #   variable = strain_yy
+  # [../]
 []
 
 [Preconditioning]
@@ -911,7 +911,4 @@
 
 [Outputs]
   exodus = true
-  csv = true
-  interval = 1
-  perf_graph = true
 []
