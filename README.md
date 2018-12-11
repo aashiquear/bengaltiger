@@ -1,4 +1,4 @@
 bengaltiger
 =====
 
-![Image of Bengal Tiger](https://github.com/aashiquear/bengaltigers/images/icon.jpeg)
+![Image of Bengal Tiger](https://raw.githubusercontent.com/aashiquear/bengaltiger/master/images/icon.jpg)
