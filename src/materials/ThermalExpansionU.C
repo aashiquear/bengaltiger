@@ -77,7 +77,12 @@ ThermalExpansionU::computeQpEigenstrain()
   RankTwoTensor I3(0, 0, 1, 0, 0, 0);
 
   RankTwoTensor theta = theta1 * I1 + theta2 * I2 + theta3 * I3;
-  RankTwoTensor cte = cte1 * I1 + cte2 * I2 + cte3 * I3;
+
+  Real dtheta1_dt = 24.22e-6 - 9.83e-9 * (2 * _temperature[_qp] - 1) + 46.02e-12 * _temperature[_qp] * (3 * _temperature[_qp] - 2);
+  Real dtheta2_dt = 3.07e-6 + 3.47e-9 * (2 * _temperature[_qp] - 1) - 38.45e-12 * _temperature[_qp] * (3 * _temperature[_qp] - 2);
+  Real dtheta3_dt = 8.72e-6 + 37.04e-9 * (2 * _temperature[_qp] - 1) + 9.08e-12 * _temperature[_qp] * (3 * _temperature[_qp] - 2);
+
+  RankTwoTensor dtheta_dt = dtheta1_dt * I1 + dtheta2_dt * I2 + dtheta3_dt * I3;
 
   _eigenstrain[_qp].zero();
   _deigenstrain_dT[_qp].zero();
@@ -115,7 +120,7 @@ ThermalExpansionU::computeQpEigenstrain()
     RankTwoTensor local_deigenstrain_dT;
 
     local_eigenstrain = theta * h;
-    local_deigenstrain_dT = cte * h;
+    local_deigenstrain_dT = dtheta_dt * h;
 
     local_eigenstrain.rotate(RotationTensor(RealVectorValue(angles)));
     local_deigenstrain_dT.rotate(RotationTensor(RealVectorValue(angles)));
