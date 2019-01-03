@@ -16,7 +16,9 @@
 #include "GrainTrackerInterface.h"
 
 class ThermalExpansionU;
-class RankTwoTensor;
+template <typename>
+class RankTwoTensorTempl;
+typedef RankTwoTensorTempl<Real> RankTwoTensor;
 class EulerAngleProvider;
 class RotationTensor;
 class GrainTrackerInterface;
