@@ -65,8 +65,8 @@ ThermalExpansionUSwitch::computeQpEigenstrain()
               46.02e-12 * (_temperature[_qp]) * (_temperature[_qp]);
   Real cte3 =
       3.07e-6 + 3.47e-9 * _temperature[_qp] - 38.45e-12 * (_temperature[_qp]) * (_temperature[_qp]);
-  Real cte2 =
-      8.72e-6 + 37.04e-9 * _temperature[_qp] + 9.08e-12 * (_temperature[_qp]) * (_temperature[_qp]);   //Swiping values
+  Real cte2 = 8.72e-6 + 37.04e-9 * _temperature[_qp] +
+              9.08e-12 * (_temperature[_qp]) * (_temperature[_qp]); // Swiping values
 
   Real theta1 = cte1 * (_temperature[_qp] - _stress_free_temperature[_qp]);
   Real theta2 = cte2 * (_temperature[_qp] - _stress_free_temperature[_qp]);
