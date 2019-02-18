@@ -117,7 +117,7 @@ ThermalExpansionUSwitch::computeQpEigenstrain()
     // Real h = n*n*n*(6*n*n - 15*n + 10);
 
     theta.rotate(RotationTensor(RealVectorValue(angles)));
-    dtheta_dT.rotate(RotationTensor(RealVectorValue(angles)));
+    dtheta_dt.rotate(RotationTensor(RealVectorValue(angles)));
 
     // Interpolation factor for elasticity tensors
     Real h = (1.0 + std::sin(libMesh::pi * ((*_vals[op_index])[_qp] - 0.5))) / 2.0;
