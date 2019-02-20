@@ -192,6 +192,9 @@ ThermalExpansionU2D::computeQpEigenstrain()
     // Real n = (*_vals[op_index])[_qp];
     // Real h = n*n*n*(6*n*n - 15*n + 10);
 
+    theta.rotate(RotationTensor(RealVectorValue(angles)));
+    dtheta_dt.rotate(RotationTensor(RealVectorValue(angles)));
+
     // Interpolation factor for elasticity tensors
     Real h = (1.0 + std::sin(libMesh::pi * ((*_vals[op_index])[_qp] - 0.5))) / 2.0;
 
@@ -201,8 +204,8 @@ ThermalExpansionU2D::computeQpEigenstrain()
     local_eigenstrain = theta * h;
     local_deigenstrain_dT = dtheta_dt * h;
 
-    local_eigenstrain.rotate(RotationTensor(RealVectorValue(angles)));
-    local_deigenstrain_dT.rotate(RotationTensor(RealVectorValue(angles)));
+    // local_eigenstrain.rotate(RotationTensor(RealVectorValue(angles)));
+    // local_deigenstrain_dT.rotate(RotationTensor(RealVectorValue(angles)));     // Incorrect way of interpolation function
 
     _eigenstrain[_qp] += local_eigenstrain;
     _deigenstrain_dT[_qp] += local_deigenstrain_dT;

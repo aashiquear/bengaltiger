@@ -7,15 +7,15 @@
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
-#ifndef ThermalExpansionUSwitch_H
-#define ThermalExpansionUSwitch_H
+#ifndef ThermalExpansionUDirectionControlled_H
+#define ThermalExpansionUDirectionControlled_H
 
 #include "ComputeEigenstrainBase.h"
 #include "DerivativeMaterialInterface.h"
 #include "RankTwoTensor.h"
 #include "GrainTrackerInterface.h"
 
-class ThermalExpansionUSwitch;
+class ThermalExpansionUDirectionControlled;
 template <typename>
 class RankTwoTensorTempl;
 typedef RankTwoTensorTempl<Real> RankTwoTensor;
@@ -24,17 +24,17 @@ class RotationTensor;
 class GrainTrackerInterface;
 
 template <>
-InputParameters validParams<ThermalExpansionUSwitch>();
+InputParameters validParams<ThermalExpansionUDirectionControlled>();
 
 /**
- * ThermalExpansionUSwitch is a class for models that
+ * ThermalExpansionUDirectionControlled is a class for models that
  * compute eigenstrains due to thermal expansion of an alpha Uranium material
-   swiping its [010] and [001] material properties.
- */
-class ThermalExpansionUSwitch : public DerivativeMaterialInterface<ComputeEigenstrainBase>
+ * for selected direction.
+ **/
+class ThermalExpansionUDirectionControlled : public DerivativeMaterialInterface<ComputeEigenstrainBase>
 {
 public:
-  ThermalExpansionUSwitch(const InputParameters & parameters);
+  ThermalExpansionUDirectionControlled(const InputParameters & parameters);
 
 protected:
   virtual void computeQpEigenstrain() override;
@@ -49,6 +49,11 @@ protected:
    *                         temperature
    */
   // virtual void computeThermalStrain(Real & thermal_strain, Real & instantaneous_cte) = 0;
+  const bool _disp_coupled;
+  unsigned int _ndisp;
+
+  const unsigned int _direction_1;
+  const unsigned int _direction_2;
 
   const VariableValue & _temperature;
   MaterialProperty<RankTwoTensor> & _deigenstrain_dT;

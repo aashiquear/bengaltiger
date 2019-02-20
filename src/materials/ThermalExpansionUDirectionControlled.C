@@ -7,20 +7,30 @@
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
-#include "ThermalExpansionUSwitch.h"
+#include "ThermalExpansionUDirectionControlled.h"
 #include "RankTwoTensor.h"
 #include "EulerAngleProvider.h"
 #include "RotationTensor.h"
 
-registerMooseObject("bengaltigerApp", ThermalExpansionUSwitch);
+registerMooseObject("bengaltigerApp", ThermalExpansionUDirectionControlled);
 
 template <>
 InputParameters
-validParams<ThermalExpansionUSwitch>()
+validParams<ThermalExpansionUDirectionControlled>()
 {
   InputParameters params = validParams<ComputeEigenstrainBase>();
   params.addClassDescription(
-      "Compute spatially and temporally dependent thermal expansion eigstrain");
+      "Compute spatially and temporally dependent thermal expansion eigstrain which can control direction of choice");
+  params.addCoupledVar("displacements",
+                       "The string of displacements suitable for the problem statement");
+  params.addRequiredParam<unsigned int>(
+      "direction_1",
+      11,
+      "First material direction notation (11, 22 or 33)");
+  params.addRequiredParam<unsigned int>(
+      "direction_2",
+      22,
+      "Second material direction notation (11, 22 or 33)");
   params.addCoupledVar("temperature", "Coupled temperature");
   params.addRequiredCoupledVar("stress_free_temperature",
                                "Reference temperature at which there is no "
@@ -36,8 +46,12 @@ validParams<ThermalExpansionUSwitch>()
   return params;
 }
 
-ThermalExpansionUSwitch::ThermalExpansionUSwitch(const InputParameters & parameters)
+ThermalExpansionUDirectionControlled::ThermalExpansionUDirectionControlled(const InputParameters & parameters)
   : DerivativeMaterialInterface<ComputeEigenstrainBase>(parameters),
+    _disp_coupled(isCoupled("displacements")),
+    _ndisp(_disp_coupled ? coupledComponents("displacements") : 0),
+    _direction_1(getParam<unsigned int>("direction_1")),
+    _direction_2(getParam<unsigned int>("direction_2")),
     _temperature(coupledValue("temperature")),
     _deigenstrain_dT(declarePropertyDerivative<RankTwoTensor>(_eigenstrain_name,
                                                               getVar("temperature", 0)->name())),
@@ -56,16 +70,25 @@ ThermalExpansionUSwitch::ThermalExpansionUSwitch(const InputParameters & paramet
 }
 
 void
-ThermalExpansionUSwitch::computeQpEigenstrain()
+ThermalExpansionUDirectionControlled::computeQpEigenstrain()
 {
+  if (_ndisp > 2)
+    mooseError("ThermalExpansionUDirectionControlled is only to be used for 2 dimensional problems.");
+
+  if ((_direction_1 != 11) && (_direction_1 != 22) && (_direction_1 != 33))
+    mooseError("Wrong material direction notation setup for direction_1");
+
+  if ((_direction_2 != 11) && (_direction_2 != 22) && (_direction_2 != 33))
+    mooseError("Wrong material direction notation setup for direction_2");
+
   // Lloyd, L. T., & Barrett, C. S. (1966). Thermal expansion of alpha Uranium. Journal of Nuclear
   // Materials, 18, 55-59.
 
   Real cte1 = 24.22e-6 - 9.83e-9 * _temperature[_qp] +
               46.02e-12 * (_temperature[_qp]) * (_temperature[_qp]);
-  Real cte3 =
+  Real cte2 =
       3.07e-6 + 3.47e-9 * _temperature[_qp] - 38.45e-12 * (_temperature[_qp]) * (_temperature[_qp]);
-  Real cte2 = 8.72e-6 + 37.04e-9 * _temperature[_qp] +
+  Real cte3 = 8.72e-6 + 37.04e-9 * _temperature[_qp] +
               9.08e-12 * (_temperature[_qp]) * (_temperature[_qp]); // Swiping values
 
   Real theta1 = cte1 * (_temperature[_qp] - _stress_free_temperature[_qp]);
@@ -76,16 +99,34 @@ ThermalExpansionUSwitch::computeQpEigenstrain()
   RankTwoTensor I2(0, 1, 0, 0, 0, 0);
   RankTwoTensor I3(0, 0, 1, 0, 0, 0);
 
-  RankTwoTensor theta = theta1 * I1 + theta2 * I2 + theta3 * I3;
+  RankTwoTensor theta;
+
+  if ((_direction_1 == 11) && (_direction_2 == 22))
+    theta = theta1 * I1 + theta2 * I2 + theta3 * I3;
+  else if ((_direction_1 == 11) && (_direction_2 == 33))
+    theta = theta1 * I1 + theta3 * I2 + theta2 * I3;
+  else if ((_direction_1 == 33) && (_direction_2 == 22))
+    theta = theta3 * I1 + theta2 * I2 + theta1 * I3;
+  else
+    mooseError("Wrong assignment of material direction");
 
   Real dtheta1_dt = 24.22e-6 - 9.83e-9 * (2 * _temperature[_qp] - 1) +
                     46.02e-12 * _temperature[_qp] * (3 * _temperature[_qp] - 2);
-  Real dtheta3_dt = 3.07e-6 + 3.47e-9 * (2 * _temperature[_qp] - 1) -
+  Real dtheta2_dt = 3.07e-6 + 3.47e-9 * (2 * _temperature[_qp] - 1) -
                     38.45e-12 * _temperature[_qp] * (3 * _temperature[_qp] - 2);
-  Real dtheta2_dt = 8.72e-6 + 37.04e-9 * (2 * _temperature[_qp] - 1) +
+  Real dtheta3_dt = 8.72e-6 + 37.04e-9 * (2 * _temperature[_qp] - 1) +
                     9.08e-12 * _temperature[_qp] * (3 * _temperature[_qp] - 2);
 
-  RankTwoTensor dtheta_dt = dtheta1_dt * I1 + dtheta2_dt * I2 + dtheta3_dt * I3;
+  RankTwoTensor dtheta_dt;
+
+  if ((_direction_1 == 11) && (_direction_2 == 22))
+    dtheta_dt = dtheta1_dt * I1 + dtheta2_dt * I2 + dtheta3_dt * I3;
+  else if ((_direction_1 == 11) && (_direction_2 == 33))
+    dtheta_dt = dtheta1_dt * I1 + dtheta3_dt * I2 + dtheta2_dt * I3;
+  else if ((_direction_1 == 33) && (_direction_2 == 22))
+    dtheta_dt = dtheta3_dt * I1 + dtheta2_dt * I2 + dtheta1_dt * I3;
+  else
+    mooseError("Wrong assignment of material direction");
 
   _eigenstrain[_qp].zero();
   _deigenstrain_dT[_qp].zero();
@@ -109,7 +150,7 @@ ThermalExpansionUSwitch::computeQpEigenstrain()
     if (grain_id < _euler.getGrainNum())
       angles = _euler.getEulerAngles(grain_id);
     else
-      mooseError("ThermalExpansionUSwitch has run out of grain rotation data.");
+      mooseError("ThermalExpansionUDirectionControlled has run out of grain rotation data.");
 
     // Interpolation factor for the eigenstrain tensors - this goes between 0 and 1 if eta is 0 or 1
     // Using standard PF interpolation function.

@@ -75,7 +75,7 @@ ComputeAnisotropicThermalExpansionEigenstrain::computeQpEigenstrain()
   RankTwoTensor I3(0, 0, 1, 0, 0, 0);
 
   RankTwoTensor theta = theta1 * I1 + theta2 * I2 + theta3 * I3;
-  RankTwoTensor cte =
+  RankTwoTensor dtheta_dt =
       _thermal_expansion_coeff1 * I1 + _thermal_expansion_coeff2 * I2 + _thermal_expansion_coeff3 *I3;
 
   _eigenstrain[_qp].zero();
@@ -107,6 +107,9 @@ ComputeAnisotropicThermalExpansionEigenstrain::computeQpEigenstrain()
     // Real n = (*_vals[op_index])[_qp];
     // Real h = n*n*n*(6*n*n - 15*n + 10);
 
+    theta.rotate(RotationTensor(RealVectorValue(angles)));
+    dtheta_dt.rotate(RotationTensor(RealVectorValue(angles)));
+
     // Interpolation factor for elasticity tensors
     Real h = (1.0 + std::sin(libMesh::pi * ((*_vals[op_index])[_qp] - 0.5))) / 2.0;
 
@@ -114,10 +117,10 @@ ComputeAnisotropicThermalExpansionEigenstrain::computeQpEigenstrain()
     RankTwoTensor local_deigenstrain_dT;
 
     local_eigenstrain = theta * h;
-    local_deigenstrain_dT = cte * h;
+    local_deigenstrain_dT = dtheta_dt * h;
 
-    local_eigenstrain.rotate(RotationTensor(RealVectorValue(angles)));
-    local_deigenstrain_dT.rotate(RotationTensor(RealVectorValue(angles)));
+    // local_eigenstrain.rotate(RotationTensor(RealVectorValue(angles)));
+    // local_deigenstrain_dT.rotate(RotationTensor(RealVectorValue(angles)));     // Incorrect way of interpolation function
 
     _eigenstrain[_qp] += local_eigenstrain;
     _deigenstrain_dT[_qp] += local_deigenstrain_dT;
