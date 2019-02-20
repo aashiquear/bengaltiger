@@ -23,9 +23,9 @@ validParams<ThermalExpansionUDirectionControlled>()
                              "eigstrain which can control direction of choice");
   params.addCoupledVar("displacements",
                        "The string of displacements suitable for the problem statement");
-  params.addRequiredParam<unsigned int>(
+  params.addParam<unsigned int>(
       "direction_1", 11, "First material direction notation (11, 22 or 33)");
-  params.addRequiredParam<unsigned int>(
+  params.addParam<unsigned int>(
       "direction_2", 22, "Second material direction notation (11, 22 or 33)");
   params.addCoupledVar("temperature", "Coupled temperature");
   params.addRequiredCoupledVar("stress_free_temperature",
