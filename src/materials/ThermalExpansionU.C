@@ -131,7 +131,8 @@ ThermalExpansionU::computeQpEigenstrain()
     local_deigenstrain_dT = dtheta_dt * h;
 
     // local_eigenstrain.rotate(RotationTensor(RealVectorValue(angles)));
-    // local_deigenstrain_dT.rotate(RotationTensor(RealVectorValue(angles)));     // Incorrect way of interpolation function
+    // local_deigenstrain_dT.rotate(RotationTensor(RealVectorValue(angles)));     // Incorrect way
+    // of interpolation function
 
     _eigenstrain[_qp] += local_eigenstrain;
     _deigenstrain_dT[_qp] += local_deigenstrain_dT;

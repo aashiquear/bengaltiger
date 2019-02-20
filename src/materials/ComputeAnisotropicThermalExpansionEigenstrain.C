@@ -75,8 +75,8 @@ ComputeAnisotropicThermalExpansionEigenstrain::computeQpEigenstrain()
   RankTwoTensor I3(0, 0, 1, 0, 0, 0);
 
   RankTwoTensor theta = theta1 * I1 + theta2 * I2 + theta3 * I3;
-  RankTwoTensor dtheta_dt =
-      _thermal_expansion_coeff1 * I1 + _thermal_expansion_coeff2 * I2 + _thermal_expansion_coeff3 *I3;
+  RankTwoTensor dtheta_dt = _thermal_expansion_coeff1 * I1 + _thermal_expansion_coeff2 * I2 +
+                            _thermal_expansion_coeff3 * I3;
 
   _eigenstrain[_qp].zero();
   _deigenstrain_dT[_qp].zero();
@@ -120,7 +120,8 @@ ComputeAnisotropicThermalExpansionEigenstrain::computeQpEigenstrain()
     local_deigenstrain_dT = dtheta_dt * h;
 
     // local_eigenstrain.rotate(RotationTensor(RealVectorValue(angles)));
-    // local_deigenstrain_dT.rotate(RotationTensor(RealVectorValue(angles)));     // Incorrect way of interpolation function
+    // local_deigenstrain_dT.rotate(RotationTensor(RealVectorValue(angles)));     // Incorrect way
+    // of interpolation function
 
     _eigenstrain[_qp] += local_eigenstrain;
     _deigenstrain_dT[_qp] += local_deigenstrain_dT;

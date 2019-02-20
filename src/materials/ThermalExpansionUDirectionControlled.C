@@ -19,18 +19,14 @@ InputParameters
 validParams<ThermalExpansionUDirectionControlled>()
 {
   InputParameters params = validParams<ComputeEigenstrainBase>();
-  params.addClassDescription(
-      "Compute spatially and temporally dependent thermal expansion eigstrain which can control direction of choice");
+  params.addClassDescription("Compute spatially and temporally dependent thermal expansion "
+                             "eigstrain which can control direction of choice");
   params.addCoupledVar("displacements",
                        "The string of displacements suitable for the problem statement");
   params.addRequiredParam<unsigned int>(
-      "direction_1",
-      11,
-      "First material direction notation (11, 22 or 33)");
+      "direction_1", 11, "First material direction notation (11, 22 or 33)");
   params.addRequiredParam<unsigned int>(
-      "direction_2",
-      22,
-      "Second material direction notation (11, 22 or 33)");
+      "direction_2", 22, "Second material direction notation (11, 22 or 33)");
   params.addCoupledVar("temperature", "Coupled temperature");
   params.addRequiredCoupledVar("stress_free_temperature",
                                "Reference temperature at which there is no "
@@ -46,7 +42,8 @@ validParams<ThermalExpansionUDirectionControlled>()
   return params;
 }
 
-ThermalExpansionUDirectionControlled::ThermalExpansionUDirectionControlled(const InputParameters & parameters)
+ThermalExpansionUDirectionControlled::ThermalExpansionUDirectionControlled(
+    const InputParameters & parameters)
   : DerivativeMaterialInterface<ComputeEigenstrainBase>(parameters),
     _disp_coupled(isCoupled("displacements")),
     _ndisp(_disp_coupled ? coupledComponents("displacements") : 0),
@@ -73,7 +70,8 @@ void
 ThermalExpansionUDirectionControlled::computeQpEigenstrain()
 {
   if (_ndisp > 2)
-    mooseError("ThermalExpansionUDirectionControlled is only to be used for 2 dimensional problems.");
+    mooseError(
+        "ThermalExpansionUDirectionControlled is only to be used for 2 dimensional problems.");
 
   if ((_direction_1 != 11) && (_direction_1 != 22) && (_direction_1 != 33))
     mooseError("Wrong material direction notation setup for direction_1");

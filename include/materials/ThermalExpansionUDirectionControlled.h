@@ -31,7 +31,8 @@ InputParameters validParams<ThermalExpansionUDirectionControlled>();
  * compute eigenstrains due to thermal expansion of an alpha Uranium material
  * for selected direction.
  **/
-class ThermalExpansionUDirectionControlled : public DerivativeMaterialInterface<ComputeEigenstrainBase>
+class ThermalExpansionUDirectionControlled
+  : public DerivativeMaterialInterface<ComputeEigenstrainBase>
 {
 public:
   ThermalExpansionUDirectionControlled(const InputParameters & parameters);
