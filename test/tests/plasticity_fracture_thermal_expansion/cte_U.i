@@ -955,7 +955,7 @@
     dt = 1e-6
   [../]
 
-  num_steps = 10
+  num_steps = 2
 []
 
 [Outputs]
