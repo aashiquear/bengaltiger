@@ -93,36 +93,36 @@ ThermalExpansionU2D::computeQpEigenstrain()
   RankTwoTensor I2(0, 1, 0, 0, 0, 0);
   RankTwoTensor I3(0, 0, 1, 0, 0, 0);
 
-  RankTwoTensor theta;
+  RankTwoTensor theta0;
 
   // RankTwoTensor theta = theta1 * I1 + theta2 * I2 + theta3 * I3;
 
   if (_i == 0)
   {
     if (_j == 0)
-      theta = theta1 * I1 + theta1 * I2;
+      theta0 = theta1 * I1 + theta1 * I2;
     else if (_j == 1)
-      theta = theta1 * I1 + theta2 * I2;
+      theta0 = theta1 * I1 + theta2 * I2;
     else
-      theta = theta1 * I1 + theta3 * I2;
+      theta0 = theta1 * I1 + theta3 * I2;
   }
   else if (_i == 1)
   {
     if (_j == 0)
-      theta = theta2 * I1 + theta1 * I2;
+      theta0 = theta2 * I1 + theta1 * I2;
     else if (_j == 1)
-      theta = theta2 * I1 + theta2 * I2;
+      theta0 = theta2 * I1 + theta2 * I2;
     else
-      theta = theta2 * I1 + theta3 * I2;
+      theta0 = theta2 * I1 + theta3 * I2;
   }
   else
   {
     if (_j == 0)
-      theta = theta3 * I1 + theta1 * I2;
+      theta0 = theta3 * I1 + theta1 * I2;
     else if (_j == 1)
-      theta = theta3 * I1 + theta2 * I2;
+      theta0 = theta3 * I1 + theta2 * I2;
     else
-      theta = theta3 * I1 + theta3 * I2;
+      theta0 = theta3 * I1 + theta3 * I2;
   }
 
   Real dtheta1_dt = 24.22e-6 - 9.83e-9 * (2 * _temperature[_qp] - 1) +
@@ -132,41 +132,39 @@ ThermalExpansionU2D::computeQpEigenstrain()
   Real dtheta3_dt = 8.72e-6 + 37.04e-9 * (2 * _temperature[_qp] - 1) +
                     9.08e-12 * _temperature[_qp] * (3 * _temperature[_qp] - 2);
 
-  RankTwoTensor dtheta_dt;
+  RankTwoTensor dtheta_dt0;
   // RankTwoTensor dtheta_dt = dtheta1_dt * I1 + dtheta2_dt * I2 + dtheta3_dt * I3;
 
   if (_i == 0)
   {
     if (_j == 0)
-      dtheta_dt = dtheta1_dt * I1 + dtheta1_dt * I2;
+      dtheta_dt0 = dtheta1_dt * I1 + dtheta1_dt * I2;
     else if (_j == 1)
-      dtheta_dt = dtheta1_dt * I1 + dtheta2_dt * I2;
+      dtheta_dt0 = dtheta1_dt * I1 + dtheta2_dt * I2;
     else
-      dtheta_dt = dtheta1_dt * I1 + dtheta3_dt * I2;
+      dtheta_dt0 = dtheta1_dt * I1 + dtheta3_dt * I2;
   }
   else if (_i == 1)
   {
     if (_j == 0)
-      dtheta_dt = dtheta2_dt * I1 + dtheta1_dt * I2;
+      dtheta_dt0 = dtheta2_dt * I1 + dtheta1_dt * I2;
     else if (_j == 1)
-      dtheta_dt = dtheta2_dt * I1 + dtheta2_dt * I2;
+      dtheta_dt0 = dtheta2_dt * I1 + dtheta2_dt * I2;
     else
-      dtheta_dt = dtheta2_dt * I1 + dtheta3_dt * I2;
+      dtheta_dt0 = dtheta2_dt * I1 + dtheta3_dt * I2;
   }
   else
   {
     if (_j == 0)
-      dtheta_dt = dtheta3_dt * I1 + dtheta1_dt * I2;
+      dtheta_dt0 = dtheta3_dt * I1 + dtheta1_dt * I2;
     else if (_j == 1)
-      dtheta_dt = dtheta3_dt * I1 + dtheta2_dt * I2;
+      dtheta_dt0 = dtheta3_dt * I1 + dtheta2_dt * I2;
     else
-      dtheta_dt = dtheta3_dt * I1 + dtheta3_dt * I2;
+      dtheta_dt0 = dtheta3_dt * I1 + dtheta3_dt * I2;
   }
 
   _eigenstrain[_qp].zero();
   _deigenstrain_dT[_qp].zero();
-
-  EulerAngles angles;
 
   Real sum_h = 0.0;
 
@@ -181,6 +179,8 @@ ThermalExpansionU2D::computeQpEigenstrain()
     if (op_to_grains[op_index] == FeatureFloodCount::invalid_id)
       continue;
 
+    EulerAngles angles;
+
     // make sure you have enough Euler angles in the file and grab the right one
     if (grain_id < _euler.getGrainNum())
       angles = _euler.getEulerAngles(grain_id);
@@ -192,6 +192,8 @@ ThermalExpansionU2D::computeQpEigenstrain()
     // Real n = (*_vals[op_index])[_qp];
     // Real h = n*n*n*(6*n*n - 15*n + 10);
 
+    RankTwoTensor theta = theta0;
+    RankTwoTensor dtheta_dt = dtheta_dt0;
     theta.rotate(RotationTensor(RealVectorValue(angles)));
     dtheta_dt.rotate(RotationTensor(RealVectorValue(angles)));
 
@@ -205,8 +207,7 @@ ThermalExpansionU2D::computeQpEigenstrain()
     local_deigenstrain_dT = dtheta_dt * h;
 
     // local_eigenstrain.rotate(RotationTensor(RealVectorValue(angles)));
-    // local_deigenstrain_dT.rotate(RotationTensor(RealVectorValue(angles)));     // Incorrect way
-    // of interpolation function
+    // local_deigenstrain_dT.rotate(RotationTensor(RealVectorValue(angles)));
 
     _eigenstrain[_qp] += local_eigenstrain;
     _deigenstrain_dT[_qp] += local_deigenstrain_dT;

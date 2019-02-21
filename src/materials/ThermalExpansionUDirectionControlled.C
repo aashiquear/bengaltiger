@@ -97,14 +97,14 @@ ThermalExpansionUDirectionControlled::computeQpEigenstrain()
   RankTwoTensor I2(0, 1, 0, 0, 0, 0);
   RankTwoTensor I3(0, 0, 1, 0, 0, 0);
 
-  RankTwoTensor theta;
+  RankTwoTensor theta0;
 
   if ((_direction_1 == 11) && (_direction_2 == 22))
-    theta = theta1 * I1 + theta2 * I2 + theta3 * I3;
+    theta0 = theta1 * I1 + theta2 * I2 + theta3 * I3;
   else if ((_direction_1 == 11) && (_direction_2 == 33))
-    theta = theta1 * I1 + theta3 * I2 + theta2 * I3;
+    theta0 = theta1 * I1 + theta3 * I2 + theta2 * I3;
   else if ((_direction_1 == 33) && (_direction_2 == 22))
-    theta = theta3 * I1 + theta2 * I2 + theta1 * I3;
+    theta0 = theta3 * I1 + theta2 * I2 + theta1 * I3;
   else
     mooseError("Wrong assignment of material direction");
 
@@ -115,21 +115,19 @@ ThermalExpansionUDirectionControlled::computeQpEigenstrain()
   Real dtheta3_dt = 8.72e-6 + 37.04e-9 * (2 * _temperature[_qp] - 1) +
                     9.08e-12 * _temperature[_qp] * (3 * _temperature[_qp] - 2);
 
-  RankTwoTensor dtheta_dt;
+  RankTwoTensor dtheta_dt0;
 
   if ((_direction_1 == 11) && (_direction_2 == 22))
-    dtheta_dt = dtheta1_dt * I1 + dtheta2_dt * I2 + dtheta3_dt * I3;
+    dtheta_dt0 = dtheta1_dt * I1 + dtheta2_dt * I2 + dtheta3_dt * I3;
   else if ((_direction_1 == 11) && (_direction_2 == 33))
-    dtheta_dt = dtheta1_dt * I1 + dtheta3_dt * I2 + dtheta2_dt * I3;
+    dtheta_dt0 = dtheta1_dt * I1 + dtheta3_dt * I2 + dtheta2_dt * I3;
   else if ((_direction_1 == 33) && (_direction_2 == 22))
-    dtheta_dt = dtheta3_dt * I1 + dtheta2_dt * I2 + dtheta1_dt * I3;
+    dtheta_dt0 = dtheta3_dt * I1 + dtheta2_dt * I2 + dtheta1_dt * I3;
   else
     mooseError("Wrong assignment of material direction");
 
   _eigenstrain[_qp].zero();
   _deigenstrain_dT[_qp].zero();
-
-  EulerAngles angles;
 
   Real sum_h = 0.0;
 
@@ -144,6 +142,7 @@ ThermalExpansionUDirectionControlled::computeQpEigenstrain()
     if (op_to_grains[op_index] == FeatureFloodCount::invalid_id)
       continue;
 
+    EulerAngles angles;
     // make sure you have enough Euler angles in the file and grab the right one
     if (grain_id < _euler.getGrainNum())
       angles = _euler.getEulerAngles(grain_id);
@@ -155,6 +154,8 @@ ThermalExpansionUDirectionControlled::computeQpEigenstrain()
     // Real n = (*_vals[op_index])[_qp];
     // Real h = n*n*n*(6*n*n - 15*n + 10);
 
+    RankTwoTensor theta = theta0;
+    RankTwoTensor dtheta_dt = dtheta_dt0;
     theta.rotate(RotationTensor(RealVectorValue(angles)));
     dtheta_dt.rotate(RotationTensor(RealVectorValue(angles)));
 
