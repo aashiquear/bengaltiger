@@ -7,16 +7,16 @@
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
-#include "ThermalExpansionU2D.h"
+#include "ThermalExpansionU2DPoly.h"
 #include "RankTwoTensor.h"
 #include "EulerAngleProvider.h"
 #include "RotationTensor.h"
 
-registerMooseObject("bengaltigerApp", ThermalExpansionU2D);
+registerMooseObject("bengaltigerApp", ThermalExpansionU2DPoly);
 
 template <>
 InputParameters
-validParams<ThermalExpansionU2D>()
+validParams<ThermalExpansionU2DPoly>()
 {
   InputParameters params = validParams<ComputeEigenstrainBase>();
   params.addClassDescription(
@@ -46,7 +46,7 @@ validParams<ThermalExpansionU2D>()
   return params;
 }
 
-ThermalExpansionU2D::ThermalExpansionU2D(const InputParameters & parameters)
+ThermalExpansionU2DPoly::ThermalExpansionU2DPoly(const InputParameters & parameters)
   : DerivativeMaterialInterface<ComputeEigenstrainBase>(parameters),
     _disp_coupled(isCoupled("displacements")),
     _ndisp(_disp_coupled ? coupledComponents("displacements") : 0),
@@ -70,10 +70,10 @@ ThermalExpansionU2D::ThermalExpansionU2D(const InputParameters & parameters)
 }
 
 void
-ThermalExpansionU2D::computeQpEigenstrain()
+ThermalExpansionU2DPoly::computeQpEigenstrain()
 {
   if (_ndisp > 2)
-    mooseError("ThermalExpansionU2D is only to be used for 2 dimensional problems.");
+    mooseError("ThermalExpansionU2DPoly is only to be used for 2 dimensional problems.");
 
   // Lloyd, L. T., & Barrett, C. S. (1966). Thermal expansion of alpha Uranium. Journal of Nuclear
   // Materials, 18, 55-59.
@@ -185,7 +185,7 @@ ThermalExpansionU2D::computeQpEigenstrain()
     if (grain_id < _euler.getGrainNum())
       angles = _euler.getEulerAngles(grain_id);
     else
-      mooseError("ThermalExpansionU2D has run out of grain rotation data.");
+      mooseError("ThermalExpansionU2DPoly has run out of grain rotation data.");
 
     // Interpolation factor for the eigenstrain tensors - this goes between 0 and 1 if eta is 0 or 1
     // Using standard PF interpolation function.
