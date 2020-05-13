@@ -76,10 +76,11 @@ NernstPlanckConvection::computeQpJacobian()
 Real
 NernstPlanckConvection::computeQpOffDiagJacobian(unsigned int jvar)
 {
+  Real jac = 0.0;
   if (jvar == _V_var)
   {
-    -_M[_qp] * _grad_phi[_j][_qp] * _grad_u[_qp] * _test[_i][_qp];
+    jac =  -_M[_qp] * _grad_phi[_j][_qp] * _grad_u[_qp] * _test[_i][_qp];
   }
 
-  return 0.0;
+  return jac;
 }
