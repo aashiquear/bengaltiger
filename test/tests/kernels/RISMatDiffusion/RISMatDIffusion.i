@@ -75,7 +75,7 @@
     args = 'c_a'
   [../]
   [./c_v_RIS_diffusion]
-    type = RISMatDiffusion
+    type = CoupledDiffusion
     variable = c_v
     diffusivity = D_bv_av
     chi = chi
@@ -104,7 +104,7 @@
     args = 'c_a'
   [../]
   [./c_i_RIS_diffusion]
-    type = RISMatDiffusion
+    type = CoupledDiffusion
     variable = c_i
     diffusivity = D_ai_bi
     chi = chi
@@ -132,7 +132,7 @@
     diffusivity = D_a
   [../]
   [./c_a_RIS_diffusion_c_i]
-    type = RISMatDiffusion
+    type = CoupledDiffusion
     variable = c_a
     diffusivity = d_ai
     chi = 1
@@ -140,7 +140,7 @@
     v = c_i
   [../]
   [./c_a_RIS_diffusion_c_v]
-    type = RISMatDiffusion
+    type = CoupledDiffusion
     variable = c_a
     diffusivity = d_av
     chi = -1
