@@ -7,15 +7,15 @@
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
-#include "RISMatDiffusion.h"
+#include "CoupledDiffusion.h"
 #include "MooseMesh.h"
 
-registerMooseObject("bengaltigerApp", RISMatDiffusion);
+registerMooseObject("bengaltigerApp", CoupledDiffusion);
 
-defineLegacyParams(RISMatDiffusion);
+defineLegacyParams(CoupledDiffusion);
 
 InputParameters
-RISMatDiffusion::validParams()
+CoupledDiffusion::validParams()
 {
   InputParameters params = Kernel::validParams();
   params.addClassDescription(
@@ -39,7 +39,7 @@ RISMatDiffusion::validParams()
   return params;
 }
 
-RISMatDiffusion::RISMatDiffusion(const InputParameters & parameters)
+CoupledDiffusion::CoupledDiffusion(const InputParameters & parameters)
   : Kernel(parameters),
     _D(getMaterialProperty<Real>("diffusivity")),
     _chi(getMaterialProperty<Real>("chi")),
@@ -51,14 +51,14 @@ RISMatDiffusion::RISMatDiffusion(const InputParameters & parameters)
 }
 
 Real
-RISMatDiffusion::computeQpResidual()
+CoupledDiffusion::computeQpResidual()
 {
   Real R = _D[_qp] * _chi[_qp] * _omega[_qp] * _u[_qp] * _grad_v[_qp] * _grad_test[_i][_qp];
   return R;
 }
 
 Real
-RISMatDiffusion::computeQpJacobian()
+CoupledDiffusion::computeQpJacobian()
 {
   Real jac = _D[_qp] * _chi[_qp] * _omega[_qp] * _phi[_j][_qp] * _grad_v[_qp] * _grad_test[_i][_qp];
   return jac;
