@@ -1,4 +1,4 @@
-//* This file is part of the MOOSE framework
+RISMatDiffusion//* This file is part of the MOOSE framework
 //* https://www.mooseframework.org
 //*
 //* All rights reserved, see COPYRIGHT for full restrictions
@@ -14,10 +14,10 @@
 #include "DerivativeMaterialInterface.h"
 
 // Forward Declarations
-class RISBinaryMatDiffusion;
+class RISMatDiffusion;
 
 template <>
-InputParameters validParams<RISBinaryMatDiffusion>();
+InputParameters validParams<RISMatDiffusion>();
 
 /**
  * Note: This class is named HeatConductionKernel instead of HeatConduction
@@ -25,12 +25,12 @@ InputParameters validParams<RISBinaryMatDiffusion>();
  * as HeatConduction, which means it can be used by that name in the input
  * file.
  */
-class RISBinaryMatDiffusion : public Kernel
+class RISMatDiffusion : public Kernel
 {
 public:
   static InputParameters validParams();
 
-  RISBinaryMatDiffusion(const InputParameters & parameters);
+  RISMatDiffusion(const InputParameters & parameters);
 
 protected:
   virtual Real computeQpResidual();
@@ -40,6 +40,7 @@ protected:
 private:
   const MaterialProperty<Real> & _D;
   const MaterialProperty<Real> & _chi;
+  const MaterialProperty<Real> & _omega;
 
   const unsigned int _v_var;
 

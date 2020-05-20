@@ -7,15 +7,15 @@
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
-#include "RISBinaryMatDiffusion.h"
+#include "RISMatDiffusion.h"
 #include "MooseMesh.h"
 
-registerMooseObject("bengaltigerApp", RISBinaryMatDiffusion);
+registerMooseObject("bengaltigerApp", RISMatDiffusion);
 
-defineLegacyParams(RISBinaryMatDiffusion);
+defineLegacyParams(RISMatDiffusion);
 
 InputParameters
-RISBinaryMatDiffusion::validParams()
+RISMatDiffusion::validParams()
 {
   InputParameters params = Kernel::validParams();
   params.addClassDescription(
@@ -28,6 +28,10 @@ RISBinaryMatDiffusion::validParams()
       "chi",
       "chi function",
       "Property name that account for the difference between chemical potential gradient");
+  params.addParam<MaterialPropertyName>(
+      "omega",
+      "omega function",
+      "Property name for atom volume");
   params.addRequiredCoupledVar(
       "v",
       "Variable defining the solid atomic fraction");
@@ -35,10 +39,11 @@ RISBinaryMatDiffusion::validParams()
   return params;
 }
 
-RISBinaryMatDiffusion::RISBinaryMatDiffusion(const InputParameters & parameters)
+RISMatDiffusion::RISMatDiffusion(const InputParameters & parameters)
   : Kernel(parameters),
     _D(getMaterialProperty<Real>("diffusivity")),
     _chi(getMaterialProperty<Real>("chi")),
+    _omega(getMaterialProperty<Real>("omega")),
     _v_var(coupled("v")),
     _v(coupledValue("v")),
     _grad_v(coupledGradient("v"))
@@ -46,15 +51,15 @@ RISBinaryMatDiffusion::RISBinaryMatDiffusion(const InputParameters & parameters)
 }
 
 Real
-RISBinaryMatDiffusion::computeQpResidual()
+RISMatDiffusion::computeQpResidual()
 {
-  Real R = _D[_qp] * _chi[_qp] * _u[_qp] * _grad_v[_qp] * _grad_test[_i][_qp];
+  Real R = _D[_qp] * _chi[_qp] * _omega[_qp] * _u[_qp] * _grad_v[_qp] * _grad_test[_i][_qp];
   return R;
 }
 
 Real
-RISBinaryMatDiffusion::computeQpJacobian()
+RISMatDiffusion::computeQpJacobian()
 {
-  Real jac = _D[_qp] * _chi[_qp] * _phi[_j][_qp] * _grad_v[_qp] * _grad_test[_i][_qp];
+  Real jac = _D[_qp] * _chi[_qp] * _omega[_qp] * _phi[_j][_qp] * _grad_v[_qp] * _grad_test[_i][_qp];
   return jac;
 }
