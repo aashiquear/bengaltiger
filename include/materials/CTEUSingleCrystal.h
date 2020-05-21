@@ -7,15 +7,15 @@
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
-#ifndef CTESingleCrystal_H
-#define CTESingleCrystal_H
+#ifndef CTEUSingleCrystal_H
+#define CTEUSingleCrystal_H
 
 #include "ComputeEigenstrainBase.h"
 #include "DerivativeMaterialInterface.h"
 #include "RankTwoTensor.h"
 #include "GrainTrackerInterface.h"
 
-class CTESingleCrystal;
+class CTEUSingleCrystal;
 template <typename>
 class RankTwoTensorTempl;
 typedef RankTwoTensorTempl<Real> RankTwoTensor;
@@ -24,16 +24,16 @@ class RotationTensor;
 class GrainTrackerInterface;
 
 template <>
-InputParameters validParams<CTESingleCrystal>();
+InputParameters validParams<CTEUSingleCrystal>();
 
 /**
- * CTESingleCrystal is a class for models that
+ * CTEUSingleCrystal is a class for models that
  * compute eigenstrains due to thermal expansion of an anisotropic material.
  */
-class CTESingleCrystal : public DerivativeMaterialInterface<ComputeEigenstrainBase>
+class CTEUSingleCrystal : public DerivativeMaterialInterface<ComputeEigenstrainBase>
 {
 public:
-  CTESingleCrystal(const InputParameters & parameters);
+  CTEUSingleCrystal(const InputParameters & parameters);
 
 protected:
   virtual void computeQpEigenstrain() override;

@@ -7,16 +7,16 @@
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
-#include "CTESingleCrystal.h"
+#include "CTEUSingleCrystal.h"
 #include "RankTwoTensor.h"
 #include "EulerAngleProvider.h"
 #include "RotationTensor.h"
 
-registerMooseObject("bengaltigerApp", CTESingleCrystal);
+registerMooseObject("bengaltigerApp", CTEUSingleCrystal);
 
 template <>
 InputParameters
-validParams<CTESingleCrystal>()
+validParams<CTEUSingleCrystal>()
 {
   InputParameters params = validParams<ComputeEigenstrainBase>();
   params.addClassDescription(
@@ -36,7 +36,7 @@ validParams<CTESingleCrystal>()
   return params;
 }
 
-CTESingleCrystal::CTESingleCrystal(const InputParameters & parameters)
+CTEUSingleCrystal::CTEUSingleCrystal(const InputParameters & parameters)
   : DerivativeMaterialInterface<ComputeEigenstrainBase>(parameters),
     _temperature(coupledValue("temperature")),
     _deigenstrain_dT(declarePropertyDerivative<RankTwoTensor>(_eigenstrain_name,
@@ -56,7 +56,7 @@ CTESingleCrystal::CTESingleCrystal(const InputParameters & parameters)
 // }
 
 void
-CTESingleCrystal::computeQpEigenstrain()
+CTEUSingleCrystal::computeQpEigenstrain()
 {
   // Lloyd, L. T., & Barrett, C. S. (1966). Thermal expansion of alpha Uranium. Journal of Nuclear
   // Materials, 18, 55-59.
@@ -111,7 +111,7 @@ CTESingleCrystal::computeQpEigenstrain()
   //   if (grain_id < _euler.getGrainNum())
   //     angles = _euler.getEulerAngles(grain_id);
   //   else
-  //     mooseError("CTESingleCrystal has run out of grain rotation data.");
+  //     mooseError("CTEUSingleCrystal has run out of grain rotation data.");
   //
   //   // Interpolation factor for the eigenstrain tensors - this goes between 0 and 1 if eta is 0 or 1
   //   // Using standard PF interpolation function.
