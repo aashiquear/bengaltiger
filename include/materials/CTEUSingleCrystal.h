@@ -52,23 +52,6 @@ protected:
   const VariableValue & _temperature;
   MaterialProperty<RankTwoTensor> & _deigenstrain_dT;
   const VariableValue & _stress_free_temperature;
-
-  /// Anisotropic thermal expansion coefficient
-  // const Real & _thermal_expansion_coeff1;
-  // const Real & _thermal_expansion_coeff2;
-  // const Real & _thermal_expansion_coeff3;
-
-  /// Number of order parameters
-  // const unsigned int _op_num;
-
-  /// Order parameters
-  // std::vector<const VariableValue *> _vals;
-
-  /// object providing the Euler angles
-  // const EulerAngleProvider & _euler;
-
-  /// Grain tracker used to get unique grain IDs
-  // const GrainTrackerInterface & _grain_tracker;
 };
 
 #endif // COMPUTETHERMALEXPANSIONEIGENSTRAINBASE_H
