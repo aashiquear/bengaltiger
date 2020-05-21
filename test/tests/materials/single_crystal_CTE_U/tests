@@ -1,0 +1,7 @@
+[Tests]
+  [./test]
+    type = 'Exodiff'
+    input = 'single_crystal_CTE_U.i'
+    exodiff = 'single_crystal_CTE_U_out.e'
+  [../]
+[]
