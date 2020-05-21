@@ -20,7 +20,7 @@ validParams<ThermalExpansionU>()
 {
   InputParameters params = validParams<ComputeEigenstrainBase>();
   params.addClassDescription(
-      "Compute spatially and temporally dependent thermal expansion eigstrain");
+      "Compute spatially and temporally dependent thermal expansion eigenstrain");
   params.addCoupledVar("temperature", "Coupled temperature");
   params.addRequiredCoupledVar("stress_free_temperature",
                                "Reference temperature at which there is no "
