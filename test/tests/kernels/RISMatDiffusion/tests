@@ -1,7 +1,0 @@
-[Tests]
-  [./test]
-    type = 'Exodiff'
-    input = 'RISMatDiffusion.i'
-    exodiff = 'RISMatDiffusion_out.e'
-  [../]
-[]

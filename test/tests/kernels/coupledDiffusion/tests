@@ -1,0 +1,7 @@
+[Tests]
+  [./test]
+    type = 'Exodiff'
+    input = 'coupledDiffusion.i'
+    exodiff = 'coupledDiffusion_out.e'
+  [../]
+[]
