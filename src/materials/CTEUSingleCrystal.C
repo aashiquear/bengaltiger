@@ -46,14 +46,14 @@ CTEUSingleCrystal::CTEUSingleCrystal(const InputParameters & parameters)
     // _vals(_op_num),
     // _euler(getUserObject<EulerAngleProvider>("euler_angle_provider")),
     // _grain_tracker(getUserObject<GrainTrackerInterface>("grain_tracker"))
-// {
+{
 //   // Loop over variables (ops)
 //   for (auto op_index = decltype(_op_num)(0); op_index < _op_num; ++op_index)
 //   {
 //     // Initialize variables
 //     _vals[op_index] = &coupledValue("v", op_index);
 //   }
-// }
+}
 
 void
 CTEUSingleCrystal::computeQpEigenstrain()
