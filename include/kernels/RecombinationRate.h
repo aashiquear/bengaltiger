@@ -36,6 +36,8 @@ public:
 protected:
   virtual Real computeQpResidual() override;
 
+  virtual Real computeQpJacobian() override;
+
   /// Scale factor
   const Real & _scale;
 
