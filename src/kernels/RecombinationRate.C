@@ -71,3 +71,11 @@ RecombinationRate::computeQpResidual()
   Real factor = _scale * _postprocessor * _function.value(_t, _q_point[_qp]) * rate;
   return _test[_i][_qp] * -factor;
 }
+
+Real
+RecombinationRate::computeQpJacobian()
+{
+  Real rate = _K1[_qp] * _omega[_qp] * _omega[_qp] * _phi[_j][_qp] * _v[_qp] + _K2[_qp] * _omega[_qp] * _phi[_j][_qp] * _S[_qp];
+  Real factor = _scale * _postprocessor * _function.value(_t, _q_point[_qp]) * rate;
+  return _test[_i][_qp] * -factor;
+}
