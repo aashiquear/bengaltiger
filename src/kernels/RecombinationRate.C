@@ -11,9 +11,9 @@
 
 #include "Function.h"
 
-registerMooseObject("bengaltigerApp", RecombinationRate);
+registerADMooseObject("bengaltigerApp", RecombinationRate);
 
-defineLegacyParams(RecombinationRate);
+defineADLegacyParams(RecombinationRate);
 
 template <ComputeStage compute_stage>
 InputParameters
