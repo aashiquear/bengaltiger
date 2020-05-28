@@ -24,7 +24,7 @@ RecombinationRate<compute_stage>::validParams()
   params.addParam<Real>("value", 1.0, "Coefficient to multiply by the body force term");
   params.addParam<MaterialPropertyName>("K", "K_iv", "Property name for rate coefficient");
   params.addParam<MaterialPropertyName>("omega", 1.0, "Property name for atom volume");
-  params.addRequiredCoupledVar("v", 1.0e-8, "Variable defining the coupled variable");
+  params.addRequiredCoupledVar("v", "Variable defining the coupled variable");
   params.addParam<FunctionName>("function", "1", "A function that describes the body force");
   params.addParam<PostprocessorName>(
       "postprocessor", 1, "A postprocessor whose value is multiplied by the body force");
@@ -49,6 +49,6 @@ template <ComputeStage compute_stage>
 ADReal
 RecombinationRate<compute_stage>::precomputeQpResidual()
 {
-  Real rate = _K[_qp] * _omega[_qp] * _u[_qp] * _v[_qp];
+  ADReal rate = _K[_qp] * _omega[_qp] * _u[_qp] * _v[_qp];
   return -_scale * _postprocessor * _function.value(_t, _q_point[_qp]) * rate;
 }
