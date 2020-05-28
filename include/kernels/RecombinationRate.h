@@ -9,24 +9,17 @@
 
 #pragma once
 
-#include "Kernel.h"
+#include "ADKernelValue.h"
 
 // Forward Declarations
+template <ComputeStage>
 class RecombinationRate;
 class Function;
 
-template <>
-InputParameters validParams<RecombinationRate>();
+declareADValidParams(RecombinationRate);
 
-/**
- * This kernel implements a generic functional
- * body force term:
- * $ - c \cdof f \cdot \phi_i $
- *
- * The coefficient and function both have defaults
- * equal to 1.0.
- */
-class RecombinationRate : public Kernel
+template <ComputeStage compute_stage>
+class RecombinationRate : public ADKernelValue<compute_stage>
 {
 public:
   static InputParameters validParams();
@@ -34,20 +27,15 @@ public:
   RecombinationRate(const InputParameters & parameters);
 
 protected:
-  virtual Real computeQpResidual() override;
-
-  virtual Real computeQpJacobian() override;
+  virtual ADReal precomputeQpResidual() override;
 
   /// Scale factor
   const Real & _scale;
 
   /// Material Properties
-  const MaterialProperty<Real> & _K1;
-  const MaterialProperty<Real> & _K2;
+  const MaterialProperty<Real> & _K;
 
   const MaterialProperty<Real> & _omega;
-
-  const MaterialProperty<Real> & _S;
 
   /// Coupled Variable
   const unsigned int _v_var;
@@ -59,4 +47,7 @@ protected:
 
   /// Optional Postprocessor value
   const PostprocessorValue & _postprocessor;
+
+  usingKernelValueMembers;
+  using KernelBase::_q_point;
 };
