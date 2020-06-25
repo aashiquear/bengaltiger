@@ -12,14 +12,14 @@
 #include "ADKernelValue.h"
 
 // Forward Declarations
-template <ComputeStage>
-class RecombinationRate;
+// template <ComputeStage>
+// class RecombinationRate;
 class Function;
 
-declareADValidParams(RecombinationRate);
+// declareADValidParams(RecombinationRate);
 
-template <ComputeStage compute_stage>
-class RecombinationRate : public ADKernelValue<compute_stage>
+// template <ComputeStage compute_stage>
+class RecombinationRate : public ADKernelValue
 {
 public:
   static InputParameters validParams();
@@ -48,6 +48,6 @@ protected:
   /// Optional Postprocessor value
   const PostprocessorValue & _postprocessor;
 
-  usingKernelValueMembers;
-  using KernelBase::_q_point;
+  // usingKernelValueMembers;
+  // using KernelBase::_q_point;
 };

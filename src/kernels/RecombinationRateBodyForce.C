@@ -13,13 +13,10 @@
 
 registerADMooseObject("bengaltigerApp", RecombinationRateBodyForce);
 
-defineADLegacyParams(RecombinationRateBodyForce);
-
-template <ComputeStage compute_stage>
 InputParameters
-RecombinationRateBodyForce<compute_stage>::validParams()
+RecombinationRateBodyForce::validParams()
 {
-  InputParameters params = ADKernelValue<compute_stage>::validParams();
+  InputParameters params = ADKernelValue::validParams();
   params.addClassDescription("Recombination rate for the radiation induced segregation");
   params.addParam<Real>("value", 1.0, "Coefficient to multiply by the body force term");
   params.addParam<MaterialPropertyName>("K", "K_iv", "Property name for rate coefficient");
@@ -32,9 +29,8 @@ RecombinationRateBodyForce<compute_stage>::validParams()
   return params;
 }
 
-template <ComputeStage compute_stage>
-RecombinationRateBodyForce<compute_stage>::RecombinationRateBodyForce(const InputParameters & parameters)
-  : ADKernelValue<compute_stage>(parameters),
+RecombinationRateBodyForce::RecombinationRateBodyForce(const InputParameters & parameters)
+  : ADKernelValue(parameters),
     _scale(getParam<Real>("value")),
     _K(getMaterialProperty<Real>("K")),
     _omega(getMaterialProperty<Real>("omega")),
@@ -45,9 +41,8 @@ RecombinationRateBodyForce<compute_stage>::RecombinationRateBodyForce(const Inpu
 {
 }
 
-template <ComputeStage compute_stage>
 ADReal
-RecombinationRateBodyForce<compute_stage>::precomputeQpResidual()
+RecombinationRateBodyForce::precomputeQpResidual()
 {
   ADReal rate = _K[_qp] * _omega[_qp];
   return -_scale * _postprocessor * _function.value(_t, _q_point[_qp]) * rate;
