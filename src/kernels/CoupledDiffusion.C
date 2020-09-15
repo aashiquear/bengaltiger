@@ -63,3 +63,15 @@ CoupledDiffusion::computeQpJacobian()
   Real jac = _D[_qp] * _chi[_qp] * _omega[_qp] * _phi[_j][_qp] * _grad_v[_qp] * _grad_test[_i][_qp];
   return jac;
 }
+
+Real
+CoupledDiffusion::computeQpOffDiagJacobian(unsigned int jvar)
+{
+  if (jvar == _v_var)
+  {
+    Real jacoff = _D[_qp] * _chi[_qp] * _omega[_qp] * _u[_qp] * _grad_phi[_j][_qp] * _grad_test[_i][_qp];
+    return jacoff;
+  }
+  else
+    return 0.0;
+}
