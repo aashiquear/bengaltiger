@@ -8,16 +8,13 @@
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
 #include "ADCoupledDiffusion.h"
-#include "MooseMesh.h"
 
 registerADMooseObject("bengaltigerApp", ADCoupledDiffusion);
-
-// defineLegacyParams(CoupledDiffusion);
 
 InputParameters
 ADCoupledDiffusion::validParams()
 {
-  InputParameters params = ADKernelValue::validParams();
+  InputParameters params = ADKernelGrad::validParams();
   params.addClassDescription(
       "Computes residual/Jacobian contribution for $(D * \\chi * u * \\nabla v, \\nabla \\psi)$ term.");
   params.addParam<MaterialPropertyName>(
@@ -40,7 +37,7 @@ ADCoupledDiffusion::validParams()
 }
 
 ADCoupledDiffusion::ADCoupledDiffusion(const InputParameters & parameters)
-  : ADKernelValue(parameters),
+  : ADKernelGrad(parameters),
     _D(getMaterialProperty<Real>("diffusivity")),
     _chi(getMaterialProperty<Real>("chi")),
     _omega(getMaterialProperty<Real>("omega")),
@@ -50,9 +47,8 @@ ADCoupledDiffusion::ADCoupledDiffusion(const InputParameters & parameters)
 {
 }
 
-ADReal
+ADRealVectorValue
 ADCoupledDiffusion::precomputeQpResidual()
 {
-  ADReal R = _D[_qp] * _chi[_qp] * _omega[_qp] * _u[_qp] * _grad_v[_qp] * _grad_test[_i][_qp];
-  return R;
+  return _D[_qp] * _chi[_qp] * _omega[_qp] * _u[_qp] * _grad_v[_qp];
 }

@@ -9,23 +9,11 @@
 
 #pragma once
 
-#include "ADKernelValue.h"
+#include "ADKernelGrad.h"
 #include "Material.h"
 #include "DerivativeMaterialInterface.h"
 
-// Forward Declarations
-class Function;
-
-// template <>
-// InputParameters validParams<CoupledDiffusion>();
-
-/**
- * Note: This class is named HeatConductionKernel instead of HeatConduction
- * to avoid a clash with the HeatConduction namespace.  It is registered
- * as HeatConduction, which means it can be used by that name in the input
- * file.
- */
-class ADCoupledDiffusion : public ADKernelValue
+class ADCoupledDiffusion : public ADKernelGrad
 {
 public:
   static InputParameters validParams();
@@ -33,7 +21,7 @@ public:
   ADCoupledDiffusion(const InputParameters & parameters);
 
 protected:
-  virtual ADReal precomputeQpResidual() override;
+  virtual ADRealVectorValue precomputeQpResidual() override;
 
 private:
   const MaterialProperty<Real> & _D;
