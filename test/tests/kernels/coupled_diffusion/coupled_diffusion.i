@@ -259,22 +259,27 @@
   scheme = bdf2
   solve_type = NEWTON
 
-  petsc_options_iname = '-pc_type -pc_factor_mat_solving_package'
-  petsc_options_value = 'lu       superlu_dist'
+  # petsc_options_iname = '-pc_type -pc_factor_mat_solving_package'
+  # petsc_options_value = 'lu       superlu_dist'
+
+  petsc_options_iname = '-pc_type -pc_hypre_type -ksp_gmres_restart -pc_hypre_boomeramg_strong_threshold'
+  petsc_options_value = 'hypre    boomeramg      201                0.9'
 
   # petsc_options_iname = '-pc_type -ksp_grmres_restart -sub_ksp_type -sub_pc_type -pc_asm_overlap'
   # petsc_options_value = 'asm         31   preonly   lu      1'
 
+  # petsc_options_iname = '-pc_type -sub_pc_type -pc_factor_mat_solving_package -pc_asm_overlap'
+  # petsc_options_value = 'asm      lu           superlu_dist                  1'
   l_max_its = 30
   l_tol = 1e-4
 
   nl_max_its = 15
-  nl_rel_tol = 1e-8
-  nl_abs_tol = 1e-9
+  nl_rel_tol = 1e-6
+  nl_abs_tol = 1e-7
 
-  num_steps = 2
+  num_steps = 10
 
-  dt = 1
+  dt = 1.0e-8
 []
 
 [Outputs]
