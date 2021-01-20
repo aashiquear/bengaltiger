@@ -37,6 +37,7 @@ MISC                        := yes
 NAVIER_STOKES               := yes
 PHASE_FIELD                 := yes
 POROUS_FLOW                 := yes
+RAY_TRACING                 := yes
 RDG                         := yes
 RICHARDS                    := no
 SOLID_MECHANICS             := no
