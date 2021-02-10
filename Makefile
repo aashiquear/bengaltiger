@@ -41,7 +41,7 @@ RAY_TRACING                 := yes
 RDG                         := yes
 RICHARDS                    := no
 SOLID_MECHANICS             := no
-STOCHASTIC_TOOLS            := no
+STOCHASTIC_TOOLS            := yes
 TENSOR_MECHANICS            := yes
 XFEM                        := yes
 
