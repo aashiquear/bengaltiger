@@ -1,0 +1,7 @@
+[Tests]
+  [./test]
+    type = 'Exodiff'
+    input = 'crack2d_computeCrackedStress_smallstrain_precracked.i'
+    exodiff = 'crack2d_computeCrackedStress_smallstrain_precracked_out.e'
+  [../]
+[]
