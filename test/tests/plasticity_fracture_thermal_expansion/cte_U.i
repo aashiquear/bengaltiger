@@ -131,6 +131,7 @@
                            vonmises_stress hydrostatic_stress' #strain_xx strain_yy strain_xy
         planar_formulation = PLANE_STRAIN
         strain_base_name = uncracked
+        temperature = temp
       [../]
     [../]
   [../]

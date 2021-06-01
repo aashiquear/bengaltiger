@@ -120,6 +120,7 @@
         generate_output = 'stress_xx stress_yy stress_xy
                            vonmises_stress hydrostatic_stress' #strain_xx strain_yy strain_xy
         planar_formulation = PLANE_STRAIN
+        temperature = temp
         # strain_base_name = uncracked
       [../]
     [../]
