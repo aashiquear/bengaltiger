@@ -136,7 +136,7 @@
     base_name = uncracked
   [../]
   [./cracked_stress]
-    type = ComputeCrackedStress
+    type = ComputeCrackedStressPreCrack
     c = c
     kdamage = 1e-6
     F_name = E_el
