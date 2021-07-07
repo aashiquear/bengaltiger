@@ -235,11 +235,6 @@
     order = CONSTANT
   [../]
 
-  [./effective_thermal_strain]
-    family = MONOMIAL
-    order = CONSTANT
-  [../]
-
   [./maxprincipal]
     order = CONSTANT
     family = MONOMIAL
@@ -485,13 +480,6 @@
     rank_two_tensor = elastic_strain
     index_i = 2
     index_j = 2
-  [../]
-
-  [./effective_thermal_strain]
-    type = RankTwoScalarAux
-    rank_two_tensor = thermal_strain
-    variable = effective_thermal_strain
-    scalar_type = EffectiveStrain
   [../]
 
   [./maxprincipal]
