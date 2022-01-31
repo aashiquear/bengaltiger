@@ -12,8 +12,6 @@
 
 registerMooseObject("bengaltigerApp", CoupledDiffusion);
 
-defineLegacyParams(CoupledDiffusion);
-
 InputParameters
 CoupledDiffusion::validParams()
 {

@@ -13,11 +13,12 @@
 #include "MooseSyntax.h"
 #include "ModulesApp.h"
 
-template <>
+
 InputParameters
-validParams<bengaltigerTestApp>()
+bengaltigerTestApp::validParams()
 {
-  InputParameters params = validParams<bengaltigerApp>();
+  InputParameters params = bengaltigerApp::validParams();
+  
   return params;
 }
 

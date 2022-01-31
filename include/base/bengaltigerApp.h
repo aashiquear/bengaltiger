@@ -6,19 +6,16 @@
 //*
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
-#ifndef BENGALTIGERAPP_H
-#define BENGALTIGERAPP_H
+
+#pragma once
 
 #include "MooseApp.h"
-
-class bengaltigerApp;
-
-template <>
-InputParameters validParams<bengaltigerApp>();
 
 class bengaltigerApp : public MooseApp
 {
 public:
+  static InputParameters validParams();
+
   bengaltigerApp(InputParameters parameters);
   virtual ~bengaltigerApp();
 
@@ -26,4 +23,3 @@ public:
   static void registerAll(Factory & f, ActionFactory & af, Syntax & s);
 };
 
-#endif /* BENGALTIGERAPP_H */

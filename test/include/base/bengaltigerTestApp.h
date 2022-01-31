@@ -6,19 +6,16 @@
 //*
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
-#ifndef BENGALTIGERTESTAPP_H
-#define BENGALTIGERTESTAPP_H
+
+#pragma once
 
 #include "MooseApp.h"
-
-class bengaltigerTestApp;
-
-template <>
-InputParameters validParams<bengaltigerTestApp>();
 
 class bengaltigerTestApp : public MooseApp
 {
 public:
+  static InputParameters validParams();
+  
   bengaltigerTestApp(InputParameters parameters);
   virtual ~bengaltigerTestApp();
 
@@ -26,4 +23,3 @@ public:
   static void registerAll(Factory & f, ActionFactory & af, Syntax & s, bool use_test_objs = false);
 };
 
-#endif /* BENGALTIGERTESTAPP_H */

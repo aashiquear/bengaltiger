@@ -11,9 +11,8 @@
 
 registerMooseObject("bengaltigerApp", ElectricConvection);
 
-template <>
 InputParameters
-validParams<ElectricConvection>()
+ElectricConvection::validParams()
 {
   InputParameters params = Kernel::validParams();
   params.addClassDescription("Transport function for electric migration.");

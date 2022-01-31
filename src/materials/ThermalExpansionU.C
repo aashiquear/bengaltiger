@@ -14,9 +14,8 @@
 
 registerMooseObject("bengaltigerApp", ThermalExpansionU);
 
-template <>
 InputParameters
-validParams<ThermalExpansionU>()
+ThermalExpansionU::validParams()
 {
   InputParameters params = ComputeEigenstrainBase::validParams();
   params.addClassDescription(

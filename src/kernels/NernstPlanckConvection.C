@@ -16,9 +16,8 @@
 
 registerMooseObject("bengaltigerApp", NernstPlanckConvection);
 
-template <>
 InputParameters
-validParams<NernstPlanckConvection>()
+NernstPlanckConvection::validParams()
 {
   InputParameters params = Kernel::validParams();
 
