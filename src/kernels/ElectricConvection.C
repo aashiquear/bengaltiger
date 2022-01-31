@@ -15,7 +15,7 @@ template <>
 InputParameters
 validParams<ElectricConvection>()
 {
-  InputParameters params = validParams<Kernel>();
+  InputParameters params = Kernel::validParams();
   params.addClassDescription("Transport function for electric migration.");
   params.addRequiredCoupledVar("potential", "Potential change over the system");
   params.addParam<MaterialPropertyName>("diffusivity", "The diffusivity used with the kernel");

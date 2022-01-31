@@ -20,7 +20,7 @@ template <>
 InputParameters
 validParams<NernstPlanckConvection>()
 {
-  InputParameters params = validParams<Kernel>();
+  InputParameters params = Kernel::validParams();
 
   params.addRequiredCoupledVar("Voltage", "The variable representing the voltage.");
   // Add a required parameter.  If this isn't provided in the input file MOOSE will error.

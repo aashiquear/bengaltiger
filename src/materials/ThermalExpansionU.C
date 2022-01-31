@@ -18,7 +18,7 @@ template <>
 InputParameters
 validParams<ThermalExpansionU>()
 {
-  InputParameters params = validParams<ComputeEigenstrainBase>();
+  InputParameters params = ComputeEigenstrainBase::validParams();
   params.addClassDescription(
       "Compute spatially and temporally dependent thermal expansion eigenstrain");
   params.addCoupledVar("temperature", "Coupled temperature");

@@ -13,18 +13,11 @@
 #include "JvarMapInterface.h"
 #include "DerivativeMaterialInterface.h"
 
-// Forward Declaration
-class ElectricConvection;
-
-template <>
-InputParameters validParams<ElectricConvection>();
-
-/**
-
- */
 class ElectricConvection : public DerivativeMaterialInterface<JvarMapKernelInterface<Kernel>>
 {
 public:
+  static InputParameters validParams();
+
   ElectricConvection(const InputParameters & parameters);
 
 protected:

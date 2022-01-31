@@ -18,20 +18,11 @@
 
 #include "Kernel.h"
 
-// Forward Declaration
-class NernstPlanckConvection;
-
-template <>
-InputParameters validParams<NernstPlanckConvection>();
-
-/**
- * Kernel which implements the convective term in the transient heat
- * conduction equation, and provides coupling with the Darcy pressure
- * equation.
- */
 class NernstPlanckConvection : public Kernel
 {
 public:
+  static InputParameters validParams();
+
   NernstPlanckConvection(const InputParameters & parameters);
 
 protected:

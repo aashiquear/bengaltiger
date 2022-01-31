@@ -11,9 +11,6 @@
 
 #include "ADKernelValue.h"
 
-// Forward Declarations
-// template <ComputeStage>
-// class RecombinationRateBodyForce;
 class Function;
 
 // declareADValidParams(RecombinationRateBodyForce);

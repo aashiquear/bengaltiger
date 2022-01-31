@@ -15,16 +15,12 @@
 #include "RankTwoTensor.h"
 #include "GrainTrackerInterface.h"
 
-class ThermalExpansionU;
 template <typename>
 class RankTwoTensorTempl;
 typedef RankTwoTensorTempl<Real> RankTwoTensor;
 class EulerAngleProvider;
 class RotationTensor;
 class GrainTrackerInterface;
-
-template <>
-InputParameters validParams<ThermalExpansionU>();
 
 /**
  * ThermalExpansionU is a class for models that
@@ -33,6 +29,8 @@ InputParameters validParams<ThermalExpansionU>();
 class ThermalExpansionU : public DerivativeMaterialInterface<ComputeEigenstrainBase>
 {
 public:
+  static InputParameters validParams();
+
   ThermalExpansionU(const InputParameters & parameters);
 
 protected:
