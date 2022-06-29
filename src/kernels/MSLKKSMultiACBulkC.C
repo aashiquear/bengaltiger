@@ -12,9 +12,9 @@
 registerMooseObject("BengaltigerApp", MSLKKSMultiACBulkC);
 
 InputParameters
-SLKKSMultiACBulkC::validParams()
+MSLKKSMultiACBulkC::validParams()
 {
-  auto params = SLKKSMultiPhaseBase::validParams();
+  auto params = MSLKKSMultiPhaseBase::validParams();
   params.addClassDescription("Multi-phase SLKKS model kernel for the bulk Allen-Cahn. "
                              "This includes all terms dependent on chemical potential.");
   params.addRequiredParam<MaterialPropertyName>(
@@ -27,8 +27,8 @@ SLKKSMultiACBulkC::validParams()
   return params;
 }
 
-SLKKSMultiACBulkC::SLKKSMultiACBulkC(const InputParameters & parameters)
-  : SLKKSMultiPhaseBase(parameters),
+MSLKKSMultiACBulkC::MSLKKSMultiACBulkC(const InputParameters & parameters)
+  : MSLKKSMultiPhaseBase(parameters),
     _c_name(getVar("c", 0)->name()),
     _lagrange(isCoupled("eta_i")),
     _etai_name(_lagrange ? getVar("eta_i", 0)->name() : _var.name()),
@@ -86,7 +86,7 @@ SLKKSMultiACBulkC::SLKKSMultiACBulkC(const InputParameters & parameters)
 }
 
 Real
-SLKKSMultiACBulkC::precomputeQpResidual()
+MSLKKSMultiACBulkC::precomputeQpResidual()
 { // sum over phases
   std::size_t k = 0;
   Real sum = 0.0;
@@ -106,7 +106,7 @@ SLKKSMultiACBulkC::precomputeQpResidual()
 }
 
 Real
-SLKKSMultiACBulkC::precomputeQpJacobian()
+MSLKKSMultiACBulkC::precomputeQpJacobian()
 {
   // For when this kernel is used in the Lagrange multiplier equation
   if (_lagrange)
@@ -131,7 +131,7 @@ SLKKSMultiACBulkC::precomputeQpJacobian()
 }
 
 Real
-SLKKSMultiACBulkC::computeQpOffDiagJacobian(unsigned int jvar)
+MSLKKSMultiACBulkC::computeQpOffDiagJacobian(unsigned int jvar)
 {
   // concentration variables
   auto csvar = mapJvarToCvar(jvar, _cs_map);

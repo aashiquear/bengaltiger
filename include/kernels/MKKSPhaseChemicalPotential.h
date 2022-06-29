@@ -29,12 +29,12 @@
  *
  * \see KKSPhaseConcentration
  */
-class KKSPhaseChemicalPotential : public DerivativeMaterialInterface<JvarMapKernelInterface<Kernel>>
+class MKKSPhaseChemicalPotential : public DerivativeMaterialInterface<JvarMapKernelInterface<Kernel>>
 {
 public:
   static InputParameters validParams();
 
-  KKSPhaseChemicalPotential(const InputParameters & parameters);
+  MKKSPhaseChemicalPotential(const InputParameters & parameters);
 
 protected:
   virtual Real computeQpResidual();

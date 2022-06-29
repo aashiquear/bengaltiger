@@ -17,12 +17,12 @@
  *
  * \see SLKKSPhaseChemicalPotential
  */
-class SLKKSMultiPhaseConcentration : public SLKKSMultiPhaseBase
+class MSLKKSMultiPhaseConcentration : public MSLKKSMultiPhaseBase
 {
 public:
   static InputParameters validParams();
 
-  SLKKSMultiPhaseConcentration(const InputParameters & parameters);
+  MSLKKSMultiPhaseConcentration(const InputParameters & parameters);
 
 protected:
   virtual Real precomputeQpResidual();
@@ -36,4 +36,7 @@ protected:
   std::vector<const MaterialProperty<Real> *> _prop_h;
   std::vector<std::vector<const MaterialProperty<Real> *>> _prop_dhdeta;
   ///@}
+
+  /// Omega functions for all phases
+  std::vector<const MaterialProperty<Real> *> _omega;
 };

@@ -15,7 +15,7 @@ using namespace MathUtils;
 registerMooseObject("BengaltigerApp", MKKSPhaseChemicalPotential);
 
 InputParameters
-KKSPhaseChemicalPotential::validParams()
+MKKSPhaseChemicalPotential::validParams()
 {
   InputParameters params = Kernel::validParams();
   params.addClassDescription("KKS model kernel to enforce the pointwise equality of phase chemical "
@@ -56,11 +56,10 @@ KKSPhaseChemicalPotential::validParams()
   return params;
 }
 
-KKSPhaseChemicalPotential::KKSPhaseChemicalPotential(const InputParameters & parameters)
+MKKSPhaseChemicalPotential::MKKSPhaseChemicalPotential(const InputParameters & parameters)
   : DerivativeMaterialInterface<JvarMapKernelInterface<Kernel>>(parameters),
     _cb_var(coupled("cb")),
     _cb_name(getVar("cb", 0)->name()),
-    _omega_names(getParam<std::vector<MaterialPropertyName>>("omega_names")),
     // first derivatives
     _dfadca(getMaterialPropertyDerivative<Real>("fa_name", _var.name())),
     _dfbdcb(getMaterialPropertyDerivative<Real>("fb_name", _cb_name)),
@@ -88,32 +87,32 @@ KKSPhaseChemicalPotential::KKSPhaseChemicalPotential(const InputParameters & par
 }
 
 void
-KKSPhaseChemicalPotential::initialSetup()
+MKKSPhaseChemicalPotential::initialSetup()
 {
   validateNonlinearCoupling<Real>("fa_name");
   validateNonlinearCoupling<Real>("fb_name");
 }
 
 Real
-KKSPhaseChemicalPotential::computeQpResidual()
+MKKSPhaseChemicalPotential::computeQpResidual()
 {
   // enforce _dfadca==_dfbdcb
-  return _test[_i][_qp] * (_dfadca[_qp] / _ka - _dfbdcb[_qp] / _kb);
+  return _test[_i][_qp] * (_dfadca[_qp] / _ka[_qp] - _dfbdcb[_qp] / _kb[_qp]);
 }
 
 Real
-KKSPhaseChemicalPotential::computeQpJacobian()
+MKKSPhaseChemicalPotential::computeQpJacobian()
 {
   // for on diagonal we return the d/dca derivative of the residual
-  return _test[_i][_qp] * _phi[_j][_qp] * (_d2fadca2[_qp] / _ka - _d2fbdcbca[_qp] / _kb);
+  return _test[_i][_qp] * _phi[_j][_qp] * (_d2fadca2[_qp] / _ka[_qp] - _d2fbdcbca[_qp] / _kb[_qp]);
 }
 
 Real
-KKSPhaseChemicalPotential::computeQpOffDiagJacobian(unsigned int jvar)
+MKKSPhaseChemicalPotential::computeQpOffDiagJacobian(unsigned int jvar)
 {
   // get the coupled variable jvar is referring to
   const unsigned int cvar = mapJvarToCvar(jvar);
 
   return _test[_i][_qp] * _phi[_j][_qp] *
-         ((*_d2fadcadarg[cvar])[_qp] / _ka - (*_d2fbdcbdarg[cvar])[_qp] / _kb);
+         ((*_d2fadcadarg[cvar])[_qp] / _ka[_qp] - (*_d2fbdcbdarg[cvar])[_qp] / _kb[_qp]);
 }

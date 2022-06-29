@@ -19,12 +19,12 @@
  *
  * The non-linear variable for this Kernel is the order parameter 'eta_i'.
  */
-class SLKKSMultiACBulkC : public SLKKSMultiPhaseBase
+class MSLKKSMultiACBulkC : public MSLKKSMultiPhaseBase
 {
 public:
   static InputParameters validParams();
 
-  SLKKSMultiACBulkC(const InputParameters & parameters);
+  MSLKKSMultiACBulkC(const InputParameters & parameters);
 
 protected:
   virtual Real precomputeQpResidual();
@@ -54,6 +54,9 @@ protected:
 
   /// first derivatives of all h w.r.t. to etai
   std::vector<const MaterialProperty<Real> *> _prop_dhdni;
+
+  /// Omega functions for all phases
+  std::vector<const MaterialProperty<Real> *> _omega;
 
   /// first derivatives of all h w.r.t. to the kernel variable and other etas
   std::vector<std::vector<const MaterialProperty<Real> *>> _prop_d2hdnidn;

@@ -10,7 +10,7 @@
 #include "MSLKKSMultiPhaseBase.h"
 
 InputParameters
-SLKKSMultiPhaseBase::validParams()
+MSLKKSMultiPhaseBase::validParams()
 {
   auto params = Kernel::validParams();
   params.addRequiredCoupledVar("cs", "Array of sublattice concentrations phase for all phases");
@@ -25,7 +25,7 @@ SLKKSMultiPhaseBase::validParams()
 }
 
 // Phase interpolation func
-SLKKSMultiPhaseBase::SLKKSMultiPhaseBase(const InputParameters & parameters)
+MSLKKSMultiPhaseBase::MSLKKSMultiPhaseBase(const InputParameters & parameters)
   : DerivativeMaterialInterface<JvarMapKernelInterface<KernelValue>>(parameters),
     _ncs(coupledComponents("cs")),
     _cs(_ncs),
@@ -36,8 +36,8 @@ SLKKSMultiPhaseBase::SLKKSMultiPhaseBase(const InputParameters & parameters)
     _eta_map(getParameterJvarMap("eta")),
     _a_cs(getParam<std::vector<Real>>("as")),
     _h_names(getParam<std::vector<MaterialPropertyName>>("h_names")),
-    _omega_names(getParam<std::vector<MaterialPropertyName>>("omega_names")),
     _nh(_h_names.size()),
+    _omega_names(getParam<std::vector<MaterialPropertyName>>("omega_names")),
     _phase(_ncs),
     _c(coupledValue("c")),
     _c_var(coupled("c"))

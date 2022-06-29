@@ -19,12 +19,12 @@
  *
  * \see SLKKSPhaseChemicalPotential
  */
-class SLKKSMultiPhaseBase : public DerivativeMaterialInterface<JvarMapKernelInterface<KernelValue>>
+class MSLKKSMultiPhaseBase : public DerivativeMaterialInterface<JvarMapKernelInterface<KernelValue>>
 {
 public:
   static InputParameters validParams();
 
-  SLKKSMultiPhaseBase(const InputParameters & parameters);
+  MSLKKSMultiPhaseBase(const InputParameters & parameters);
 
 protected:
   ///@{ Sublattice concentrations
@@ -49,7 +49,7 @@ protected:
   std::vector<MaterialPropertyName> _h_names;
   const std::size_t _nh;
   ///@}
-  
+
   // Omega
   std::vector<MaterialPropertyName> _omega_names;
 

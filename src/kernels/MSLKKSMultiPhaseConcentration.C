@@ -12,9 +12,9 @@
 registerMooseObject("BengaltigerApp", MSLKKSMultiPhaseConcentration);
 
 InputParameters
-SLKKSMultiPhaseConcentration::validParams()
+MSLKKSMultiPhaseConcentration::validParams()
 {
-  auto params = SLKKSMultiPhaseBase::validParams();
+  auto params = MSLKKSMultiPhaseBase::validParams();
   params.addClassDescription(
       "SLKKS multi-phase model kernel to enforce $c_i = \\sum_j h_j\\sum_k a_{jk} c_{ijk}$. "
       "The non-linear variable of this kernel is a phase's sublattice concentration");
@@ -23,8 +23,8 @@ SLKKSMultiPhaseConcentration::validParams()
 }
 
 // Phase interpolation func
-SLKKSMultiPhaseConcentration::SLKKSMultiPhaseConcentration(const InputParameters & parameters)
-  : SLKKSMultiPhaseBase(parameters), _l(-1), _prop_h(_nh), _prop_dhdeta(_nh)
+MSLKKSMultiPhaseConcentration::MSLKKSMultiPhaseConcentration(const InputParameters & parameters)
+  : MSLKKSMultiPhaseBase(parameters), _l(-1), _prop_h(_nh), _prop_dhdeta(_nh)
 {
   // Fetch switching and omega functions and their derivatives
   for (std::size_t i = 0; i < _nh; ++i)
@@ -50,7 +50,7 @@ SLKKSMultiPhaseConcentration::SLKKSMultiPhaseConcentration(const InputParameters
 }
 
 Real
-SLKKSMultiPhaseConcentration::precomputeQpResidual()
+MSLKKSMultiPhaseConcentration::precomputeQpResidual()
 {
   // sum over phases
   std::size_t k = 0;
@@ -70,13 +70,13 @@ SLKKSMultiPhaseConcentration::precomputeQpResidual()
 }
 
 Real
-SLKKSMultiPhaseConcentration::precomputeQpJacobian()
+MSLKKSMultiPhaseConcentration::precomputeQpJacobian()
 {
   return (*_prop_h[_phase[_l]])[_qp] * _phi[_j][_qp] * _a_cs[_l];
 }
 
 Real
-SLKKSMultiPhaseConcentration::computeQpOffDiagJacobian(unsigned int jvar)
+MSLKKSMultiPhaseConcentration::computeQpOffDiagJacobian(unsigned int jvar)
 {
   if (jvar == _c_var)
     return -_test[_i][_qp] * _phi[_j][_qp];
