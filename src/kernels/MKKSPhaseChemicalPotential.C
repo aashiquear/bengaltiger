@@ -12,7 +12,7 @@
 
 using namespace MathUtils;
 
-registerMooseObject("BengaltigerApp", MKKSPhaseChemicalPotential);
+registerMooseObject("bengaltigerApp", MKKSPhaseChemicalPotential);
 
 InputParameters
 MKKSPhaseChemicalPotential::validParams()

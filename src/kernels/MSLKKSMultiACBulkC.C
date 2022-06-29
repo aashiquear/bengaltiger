@@ -9,7 +9,7 @@
 
 #include "MSLKKSMultiACBulkC.h"
 
-registerMooseObject("BengaltigerApp", MSLKKSMultiACBulkC);
+registerMooseObject("bengaltigerApp", MSLKKSMultiACBulkC);
 
 InputParameters
 MSLKKSMultiACBulkC::validParams()

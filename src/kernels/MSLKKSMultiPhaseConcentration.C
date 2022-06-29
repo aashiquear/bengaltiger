@@ -9,7 +9,7 @@
 
 #include "MSLKKSMultiPhaseConcentration.h"
 
-registerMooseObject("BengaltigerApp", MSLKKSMultiPhaseConcentration);
+registerMooseObject("bengaltigerApp", MSLKKSMultiPhaseConcentration);
 
 InputParameters
 MSLKKSMultiPhaseConcentration::validParams()
