@@ -1,7 +1,7 @@
 [Tests]
   [./test]
     type = 'Exodiff'
-    input = 'coupled_diffusion.i'
-    exodiff = 'coupled_diffusion_out.e'
+    input = 'full_solve.i'
+    exodiff = 'full_solve_out.e'
   [../]
 []
