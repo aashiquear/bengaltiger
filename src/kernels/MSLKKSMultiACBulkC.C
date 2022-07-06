@@ -38,6 +38,7 @@ MSLKKSMultiACBulkC::MSLKKSMultiACBulkC(const InputParameters & parameters)
     _prop_d2Fdcdcs(_ncs),
     _prop_dhdni(_nh),
     _prop_d2hdnidn(_nh),
+    _omega(_nh),
     _l_cs(-1),
     _l_etai(-1),
     _mob(getMaterialProperty<Real>("mob_name"))
@@ -96,13 +97,13 @@ MSLKKSMultiACBulkC::precomputeQpResidual()
     Real csum = 0.0;
     for (unsigned int j = 0; j < _ns[i]; ++j)
     {
-      csum += (*_cs[k])[_qp] * _a_cs[k] / (*_omega[k])[_qp];
+      csum += (*_cs[k])[_qp] * _a_cs[k];
       k++;
     }
-    sum += (*_prop_dhdni[i])[_qp] * csum;
+    sum += (*_prop_dhdni[i])[_qp] * csum / (*_omega[i])[_qp];
   }
 
-  return -_mob[_qp] * _prop_dFdc[_qp] / _a_cs[_l_cs] * sum * (*_omega[k])[_qp];
+  return -_mob[_qp] * _prop_dFdc[_qp] / _a_cs[_l_cs] * sum * (*_omega[_l_cs])[_qp];
 }
 
 Real

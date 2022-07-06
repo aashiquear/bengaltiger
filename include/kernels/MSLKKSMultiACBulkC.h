@@ -55,11 +55,11 @@ protected:
   /// first derivatives of all h w.r.t. to etai
   std::vector<const MaterialProperty<Real> *> _prop_dhdni;
 
-  /// Omega functions for all phases
-  std::vector<const MaterialProperty<Real> *> _omega;
-
   /// first derivatives of all h w.r.t. to the kernel variable and other etas
   std::vector<std::vector<const MaterialProperty<Real> *>> _prop_d2hdnidn;
+  
+  /// Omega functions for all phases
+  std::vector<const MaterialProperty<Real> *> _omega;
 
   /// Position of the c variable in the cs list
   int _l_cs;
