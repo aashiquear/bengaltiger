@@ -24,7 +24,7 @@ MSLKKSMultiPhaseConcentration::validParams()
 
 // Phase interpolation func
 MSLKKSMultiPhaseConcentration::MSLKKSMultiPhaseConcentration(const InputParameters & parameters)
-  : MSLKKSMultiPhaseBase(parameters), _l(-1), _prop_h(_nh), _prop_dhdeta(_nh)
+  : MSLKKSMultiPhaseBase(parameters), _l(-1), _prop_h(_nh), _prop_dhdeta(_nh), _omega(_nh)
 {
   // Fetch switching and omega functions and their derivatives
   for (std::size_t i = 0; i < _nh; ++i)
@@ -61,10 +61,10 @@ MSLKKSMultiPhaseConcentration::precomputeQpResidual()
     Real csum = 0.0;
     for (unsigned int j = 0; j < _ns[i]; ++j)
     {
-      csum += (*_cs[k])[_qp] * _a_cs[k] / (*_omega[k])[_qp];
+      csum += (*_cs[k])[_qp] * _a_cs[k];
       k++;
     }
-    sum += (*_prop_h[i])[_qp] * csum;
+    sum += (*_prop_h[i])[_qp] * csum / (*_omega[i])[_qp];
   }
   return sum - _c[_qp];
 }
